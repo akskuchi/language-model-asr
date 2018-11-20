@@ -2,11 +2,13 @@ import torch
 import torch.nn as nn
 import numpy as np
 
+
 class RNNModel(nn.Module):
     """Container module with an encoder, a recurrent module, and a decoder."""
 
-    def __init__(self, rnn_type, ntoken, ninp, nhid, nlayers, tie_weights=False):
+    def __init__(self, rnn_type, ntoken, ninp, nhid, nlayers, device, tie_weights=False):
         super(RNNModel, self).__init__()
+        self.device = device
         #self.encoder = nn.Embedding(ntoken, ninp)
         self.inp = nn.Linear(ntoken, nhid)
         if rnn_type in ['LSTM', 'GRU']:
@@ -56,11 +58,11 @@ class RNNModel(nn.Module):
 
     def forward(self, input, hidden):
         # to oneHot
-        inputs = torch.empty(input.shape[0], input.shape[1], self.ntoken)
+        inputs = torch.empty(input.shape[0], input.shape[1], self.ntoken).to(self.device)
         for x in range(input.shape[0]):
             for y in range(input.shape[1]):
-                inputs[x,y,:] = np.arange(self.ntoken) == input[x,y]
-        
+                inputs[x, y, :] = torch.Tensor(np.arange(self.ntoken)).long().to(self.device) == input[x, y]
+
         inp = self.inp(inputs)
         output, hidden = self.rnn(inp, hidden)        
         decoded = self.decoder(output.view(output.size(0)*output.size(1), output.size(2)))
