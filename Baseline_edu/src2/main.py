@@ -145,7 +145,7 @@ def get_batch(source, i):
     return data, target
 
 
-EVALUATOR = NLGEval(no_glove=True, no_skipthought=True)
+EVALUATOR = NLGEval(no_glove=True, no_skipthoughts=True)
 
 
 def average_statistics(statistics):
