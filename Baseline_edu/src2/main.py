@@ -283,7 +283,7 @@ try:
 
         # Append statistics here, we will dump them later
         statistics['val_loss'] = val_loss
-        collected_statistics.append(statistics, ignore_index=True)
+        collected_statistics = collected_statistics.append(statistics, ignore_index=True)
 
         print('-' * 89)
         print('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '
@@ -311,7 +311,7 @@ with open(args.save, 'rb') as f:
 
 # Run on test data.
 test_loss, statistics = evaluate(test_data)
-collected_statistics.append(statistics, ignore_index=True)
+collected_statistics = collected_statistics.append(statistics, ignore_index=True)
 print('=' * 89)
 print('| End of training | test loss {:5.2f} | test ppl {:8.2f} {}'.format(
     test_loss, math.exp(test_loss), format_statistics(statistics)))
