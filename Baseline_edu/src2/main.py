@@ -10,6 +10,9 @@ import torch.onnx
 import data
 import model
 
+from collections import Counter
+from nlgeval import NLGEval
+
 parser = argparse.ArgumentParser(description='PyTorch Wikitext-2 RNN/LSTM Language Model')
 parser.add_argument('--data', type=str, default='./data/wikitext-2',
                     help='location of the data corpus')
