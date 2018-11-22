@@ -287,8 +287,8 @@ try:
 
         print('-' * 89)
         print('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '
-                'valid ppl {:8.2f}'.format(epoch, (time.time() - epoch_start_time),
-                                           val_loss, math.exp(val_loss)))
+                'valid ppl {:8.2f} | {}'.format(epoch, (time.time() - epoch_start_time),
+                                                val_loss, math.exp(val_loss), format_statistics(statistics)))
         print('-' * 89)
         # Save the model if the validation loss is the best we've seen so far.
         if not best_val_loss or val_loss < best_val_loss:
@@ -313,8 +313,8 @@ with open(args.save, 'rb') as f:
 test_loss, statistics = evaluate(test_data)
 collected_statistics.append(statistics, ignore_index=True)
 print('=' * 89)
-print('| End of training | test loss {:5.2f} | test ppl {:8.2f}'.format(
-    test_loss, math.exp(test_loss)))
+print('| End of training | test loss {:5.2f} | test ppl {:8.2f} {}'.format(
+    test_loss, math.exp(test_loss), format_statistics(statistics)))
 print('=' * 89)
 
 if len(args.onnx_export) > 0:
