@@ -262,6 +262,12 @@ def export_onnx(path, batch_size, seq_len):
     torch.onnx.export(model, (dummy_input, hidden), path)
 
 
+def format_statistics(statistics):
+    return '| '.join([
+        '{0}: {1:.2f}'.format(k, s) for k, s in statistics.items()
+    ])
+
+
 # Loop over epochs.
 lr = args.lr
 best_val_loss = None
