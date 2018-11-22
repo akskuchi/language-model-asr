@@ -272,12 +272,19 @@ def format_statistics(statistics):
 lr = args.lr
 best_val_loss = None
 
+collected_statistics = pd.DataFrame()
+
 # At any point you can hit Ctrl + C to break out of training early.
 try:
     for epoch in range(1, args.epochs+1):
         epoch_start_time = time.time()
         train()
-        val_loss = evaluate(val_data)
+        val_loss, statistics = evaluate(val_data)
+
+        # Append statistics here, we will dump them later
+        statistics['val_loss'] = val_loss
+        collected_statistics.append(statistics, ignore_index=True)
+
         print('-' * 89)
         print('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '
                 'valid ppl {:8.2f}'.format(epoch, (time.time() - epoch_start_time),
@@ -303,7 +310,8 @@ with open(args.save, 'rb') as f:
     model.rnn.flatten_parameters()
 
 # Run on test data.
-test_loss = evaluate(test_data)
+test_loss, statistics = evaluate(test_data)
+collected_statistics.append(statistics, ignore_index=True)
 print('=' * 89)
 print('| End of training | test loss {:5.2f} | test ppl {:8.2f}'.format(
     test_loss, math.exp(test_loss)))
