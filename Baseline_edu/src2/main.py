@@ -35,6 +35,9 @@ parser.add_argument('--dropout', type=float, default=0.2,
                     help='dropout applied to layers (0 = no dropout)')
 parser.add_argument('--tied', action='store_true',
                     help='tie the word embedding and softmax weights')
+parser.add_argument('--metrics-k', type=int, help='How many words to predict for metrics', default=3)
+parser.add_argument('--show-predictions-during-evaluation', action='store_true',
+                    help='Whether to show predicted sentences during evaluation')
 parser.add_argument('--seed', type=int, default=1111,
                     help='random seed')
 parser.add_argument('--cuda', action='store_true',
