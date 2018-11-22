@@ -106,6 +106,16 @@ model = model.RNNModel(args.model, ntokens, args.emsize, args.nhid, args.nlayers
 
 criterion = nn.CrossEntropyLoss()
 
+
+def batch_to_word_sequence(data):
+    data_npy = data.cpu().detach().numpy()
+
+    return [
+        [corpus.dictionary.idx2word[w] for w in s]
+        for s in data_npy.T
+    ], data_npy.T.tolist()
+
+
 ###############################################################################
 # Training code
 ###############################################################################
