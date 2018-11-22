@@ -22,6 +22,8 @@
 3. Bigrams, Trigrams, Collocations
 4. Splitting data into model input, expected output
 
+![sample_data](./data/sample_data.jpg)
+
 ----
 
 **Baseline statistics:**
