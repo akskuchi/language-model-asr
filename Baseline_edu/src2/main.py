@@ -204,6 +204,7 @@ def evaluate(data_source):
     total_loss = 0.
     ntokens = len(corpus.dictionary)
     hidden = model.init_hidden(eval_batch_size)
+    recorded_metrics = []
     with torch.no_grad():
         # Need this otherwise pytorch runs out of memory
         for i in range(0, min(data_source.size(0) - 1, 1000), args.bptt):
@@ -212,7 +213,9 @@ def evaluate(data_source):
             output_flat = output.view(-1, ntokens)
             total_loss += len(data) * criterion(output_flat, targets).item()
             hidden = repackage_hidden(hidden)
-    return total_loss / (len(data_source) - 1)
+
+            recorded_metrics.extend(list(generate_metrics(data, model, args.metrics_k)))
+    return total_loss / (len(data_source) - 1), average_statistics(recorded_metrics)
 
 
 def train():
