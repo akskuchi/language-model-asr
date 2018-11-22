@@ -320,3 +320,6 @@ print('=' * 89)
 if len(args.onnx_export) > 0:
     # Export the model in ONNX format.
     export_onnx(args.onnx_export, batch_size=1, seq_len=args.bptt)
+
+if args.save_statistics:
+    collected_statistics.to_csv(args.save_statistics)
