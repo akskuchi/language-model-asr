@@ -145,6 +145,59 @@ def get_batch(source, i):
     return data, target
 
 
+EVALUATOR = NLGEval(no_glove=True, no_skipthought=True)
+
+
+def average_statistics(statistics):
+    avg_statistics = {k: 0 for k in statistics[0]}
+
+    for statistic in statistics:
+        for key in avg_statistics.keys():
+            avg_statistics[key] += statistic[key] / len(statistics)
+
+    return avg_statistics
+
+
+def output_to_preds(output):
+    return F.softmax(output.view(-1, len(corpus.dictionary)), dim=1).argmax(1).detach().flatten().cpu().numpy()
+
+
+def predict_n(model, n, hidden, last):
+    for i in range(n):
+        output, hidden = model(torch.tensor(np.array([[last]]).T).to(device), hidden)
+        last = output_to_preds(output)[0]
+        yield last
+
+
+def generate_metrics(data, model, k):
+    char_sequences, encoding_sequences = batch_to_word_sequence(data)
+
+    for char_seq, enc_seq in zip(char_sequences, encoding_sequences):
+        if len(enc_seq) <= k:
+            continue
+
+        start_char_seq, start_enc_seq = char_seq[:-k], enc_seq[:-k]
+        hidden = model.init_hidden(1)
+
+        for enc in start_enc_seq:
+            output, hidden = model(torch.tensor(np.array([[enc]]).T).to(device), hidden)
+
+        next_1 = output_to_preds(output)[0]
+
+        # Now predict the next n - 1
+        next_enc_n = list(predict_n(model, k - 1, hidden, next_1))
+        encodings = start_enc_seq + [next_1] + next_enc_n
+
+        real_sentence = " ".join(char_seq)
+        predicted_sentence = " ".join([corpus.dictionary.idx2word[w] for w in encodings])
+
+        if args.show_predictions_during_evaluation:
+            print("REFERENCE:", " ".join(real_sentence))
+            print("PREDICTED:", " ".join(predicted_sentence))
+        yield EVALUATOR.compute_individual_metrics(ref=[" ".join(real_sentence)],
+                                                   hyp=" ".join(predicted_sentence))
+
+
 def evaluate(data_source):
     # Turn on evaluation mode which disables dropout.
     model.eval()
