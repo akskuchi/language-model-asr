@@ -51,6 +51,7 @@ parser.add_argument('--save', type=str, default='model.pt',
                     help='path to save the final model')
 parser.add_argument('--onnx-export', type=str, default='',
                     help='path to export the final model in onnx format')
+parser.add_argument('--save-statistics', type=str, default=None)
 args = parser.parse_args()
 
 # Set the random seed manually for reproducibility.
