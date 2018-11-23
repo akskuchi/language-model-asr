@@ -2,21 +2,21 @@
 
 # Paper refers to rnn + sigmoid activations. This isn't implemented
 # in PyTorch, so we can only test on ReLU and tanh
-MODELS="GRU LSTM RNN_RELU RNN_TANH"
+MODELS=${MODELS:-"GRU LSTM RNN_RELU RNN_TANH"}
 # Paper only uses a single hidden layer, we can use multiple
-LAYERS="1 2 3 4"
+LAYERS=${LAYERS-"1 2 3 4"}
 # These are the hidden layer sizes used in the paper
-HIDDEN="60 90 250 400"
+HIDDEN=${HIDDEN:-"60 90 250 400"}
 # Dropout probabilities
-DROPOUT="0.001 0.005 0.01 0.05 0.1 0.5"
+DROPOUT=${DROPOUT:-"0.001 0.005 0.01 0.05 0.1 0.5"}
 # Datasets
-DATASETS="wikitext-2"
+DATASETS=${DATASETS:-"wikitext-2"}
 # Predict k words
-K="3 5 10"
+K=${K:-"3 5 10"}
 # Embedding size - must be the same size as the hidden layer, apparently
 # EMSIZES="100 200 500"
 # Backprop through time
-BPTT="8 16 32"
+BPTT=${BPTT:-"8 16 32"}
 
 mkdir -p models
 mkdir -p statistics
