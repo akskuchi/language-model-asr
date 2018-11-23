@@ -69,6 +69,7 @@ device = torch.device("cuda" if args.cuda else "cpu")
 # Load data
 ###############################################################################
 
+print("MODEL: Loading corpus")
 corpus = data.Corpus(args.data)
 
 # Starting from sequential data, batchify arranges the dataset into columns.
@@ -145,6 +146,7 @@ def get_batch(source, i):
     return data, target
 
 
+print("MODEL: Creating evaluator")
 EVALUATOR = NLGEval(no_glove=True, no_skipthoughts=True)
 
 
