@@ -6,9 +6,10 @@ import numpy as np
 class RNNModel(nn.Module):
     """Container module with an encoder, a recurrent module, and a decoder."""
 
-    def __init__(self, rnn_type, ntoken, ninp, nhid, nlayers, device, tie_weights=False):
+    def __init__(self, rnn_type, ntoken, ninp, nhid, nlayers, device, tie_weights=False, dropout=0.00):
         super(RNNModel, self).__init__()
         self.device = device
+        self.drop = nn.Dropout(dropout)
         #self.encoder = nn.Embedding(ntoken, ninp)
         self.inp = nn.Linear(ntoken, nhid)
         if rnn_type in ['LSTM', 'GRU']:
@@ -64,7 +65,8 @@ class RNNModel(nn.Module):
                 inputs[x, y, :] = torch.Tensor(np.arange(self.ntoken)).long().to(self.device) == input[x, y]
 
         inp = self.inp(inputs)
-        output, hidden = self.rnn(inp, hidden)        
+        output, hidden = self.rnn(inp, hidden)
+        output = self.drop(output)
         decoded = self.decoder(output.view(output.size(0)*output.size(1), output.size(2)))
         return decoded.view(output.size(0), output.size(1), decoded.size(1)), hidden
 
