@@ -13,14 +13,14 @@ class RNNModel(nn.Module):
         #self.encoder = nn.Embedding(ntoken, ninp)
         self.inp = nn.Linear(ntoken, nhid)
         if rnn_type in ['LSTM', 'GRU']:
-            self.rnn = getattr(nn, rnn_type)(ninp, nhid, nlayers)
+            self.rnn = getattr(nn, rnn_type)(ninp, nhid, nlayers,  dropout=dropout)
         else:
             try:
                 nonlinearity = {'RNN_TANH': 'tanh', 'RNN_RELU': 'relu'}[rnn_type]
             except KeyError:
                 raise ValueError( """An invalid option for `--model` was supplied,
                                  options are ['LSTM', 'GRU', 'RNN_TANH' or 'RNN_RELU']""")
-            self.rnn = nn.RNN(nhid, nhid, nlayers, nonlinearity=nonlinearity)
+            self.rnn = nn.RNN(nhid, nhid, nlayers, nonlinearity=nonlinearity,  dropout=dropout)
         self.decoder = nn.Linear(nhid, ntoken)
 
         # Optionally tie weights as in:
