@@ -6,11 +6,14 @@ import numpy as np
 class RNNModel(nn.Module):
     """Container module with an encoder, a recurrent module, and a decoder."""
 
-    def __init__(self, rnn_type, ntoken, ninp, nhid, nlayers, device, tie_weights=False, dropout=0.00):
+    def __init__(self, rnn_type, ntoken, emsize, ninp, nhid, nlayers, device, tie_weights=False, 
+                 dropout=0.00):
         super(RNNModel, self).__init__()
         self.device = device
         self.drop = nn.Dropout(dropout)
-        #self.encoder = nn.Embedding(ntoken, ninp)
+        self.embSize = emsize
+        if self.embSize > 0:
+            self.encoder = nn.Embedding(ntoken, ninp)
         self.inp = nn.Linear(ntoken, nhid)
         if rnn_type in ['LSTM', 'GRU']:
             self.rnn = getattr(nn, rnn_type)(ninp, nhid, nlayers,  dropout=dropout)
@@ -56,13 +59,22 @@ class RNNModel(nn.Module):
         self.decoder.bias.data.zero_()
         self.decoder.weight.data = (
             torch.randn(self.decoder.weight.size()) * 0.1)
+        #
+        if self.embSize > 0:
+            self.encoder.bias.data.zero_()
+            self.encoder.weight.data = (
+                torch.randn(self.encoder.weight.size()) * 0.1)
 
     def forward(self, input, hidden):
-        # to oneHot
-        inputs = torch.empty(input.shape[0], input.shape[1], self.ntoken).to(self.device)
-        for x in range(input.shape[0]):
-            for y in range(input.shape[1]):
-                inputs[x, y, :] = torch.Tensor(np.arange(self.ntoken)).long().to(self.device) == input[x, y]
+        if self.embSize > 0:
+            inputs = self.encoder(input)
+        else:
+            # to oneHot
+            inputs = torch.empty(input.shape[0], input.shape[1], self.ntoken).to(self.device)
+            for x in range(input.shape[0]):
+                for y in range(input.shape[1]):
+                    inputs[x, y, :] = torch.Tensor(np.arange(self.ntoken)).long().to(self.device) \
+                    == input[x, y]
 
         inp = self.inp(inputs)
         output, hidden = self.rnn(inp, hidden)

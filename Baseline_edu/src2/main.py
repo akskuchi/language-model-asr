@@ -22,7 +22,7 @@ parser.add_argument('--data', type=str, default='./data/wikitext-2',
 parser.add_argument('--model', type=str, default='LSTM',
                     help='type of recurrent net (RNN_TANH, RNN_RELU, LSTM, GRU)')
 parser.add_argument('--emsize', type=int, default=200,
-                    help='size of word embeddings')
+                    help='size of word embeddings (if 0: OneHot instead of embeddings)')
 parser.add_argument('--nhid', type=int, default=200,
                     help='number of hidden units per layer')
 parser.add_argument('--nlayers', type=int, default=2,
@@ -74,12 +74,12 @@ corpus = data.Corpus(args.data)
 
 # Starting from sequential data, batchify arranges the dataset into columns.
 # For instance, with the alphabet as the sequence and batch size 4, we'd get
-# ┌ a g m s ┐
-# │ b h n t │
-# │ c i o u │
-# │ d j p v │
-# │ e k q w │
-# └ f l r x ┘.
+# â”Œ a g m s â”�
+# â”‚ b h n t â”‚
+# â”‚ c i o u â”‚
+# â”‚ d j p v â”‚
+# â”‚ e k q w â”‚
+# â”” f l r x â”˜.
 # These columns are treated as independent by the model, which means that the
 # dependence of e. g. 'g' on 'f' can not be learned, but allows more efficient
 # batch processing.
@@ -132,8 +132,8 @@ def repackage_hidden(h):
 # get_batch subdivides the source data into chunks of length args.bptt.
 # If source is equal to the example output of the batchify function, with
 # a bptt-limit of 2, we'd get the following two Variables for i = 0:
-# ┌ a g m s ┐ ┌ b h n t ┐
-# └ b h n t ┘ └ c i o u ┘
+# â”Œ a g m s â”� â”Œ b h n t â”�
+# â”” b h n t â”˜ â”” c i o u â”˜
 # Note that despite the name of the function, the subdivison of data is not
 # done along the batch dimension (i.e. dimension 1), since that was handled
 # by the batchify function. The chunks are along dimension 0, corresponding
