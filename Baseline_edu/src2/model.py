@@ -6,15 +6,18 @@ import numpy as np
 class RNNModel(nn.Module):
     """Container module with an encoder, a recurrent module, and a decoder."""
 
-    def __init__(self, rnn_type, ntoken, emsize, ninp, nhid, nlayers, device, tie_weights=False, 
+    def __init__(self, rnn_type, ntoken, emsize, nhid, nlayers, device, tie_weights=False, 
                  dropout=0.00):
         super(RNNModel, self).__init__()
         self.device = device
         self.drop = nn.Dropout(dropout)
         self.embSize = emsize
         if self.embSize > 0:
-            self.encoder = nn.Embedding(ntoken, ninp)
-        self.inp = nn.Linear(ntoken, nhid)
+            self.encoder = nn.Embedding(ntoken, self.embSize)
+            ninp = self.embSize
+        else:
+            self.encoder = nn.Linear(ntoken, nhid)
+            ninp = ntoken
         if rnn_type in ['LSTM', 'GRU']:
             self.rnn = getattr(nn, rnn_type)(ninp, nhid, nlayers,  dropout=dropout)
         else:
@@ -32,10 +35,10 @@ class RNNModel(nn.Module):
         # and
         # "Tying Word Vectors and Word Classifiers: A Loss Framework for Language Modeling" (Inan et al. 2016)
         # https://arxiv.org/abs/1611.01462
-#         if tie_weights:
-#             if nhid != ninp:
-#                 raise ValueError('When using the tied flag, nhid must be equal to emsize')
-#             self.decoder.weight = self.encoder.weight
+        if tie_weights:
+            if nhid != ninp:
+                raise ValueError('When using the tied flag, nhid must be equal to emsize')
+            self.decoder.weight = self.encoder.weight
 
         self.init_weights()
 
@@ -46,9 +49,6 @@ class RNNModel(nn.Module):
         self.ntoken = ntoken
 
     def init_weights(self):
-        self.inp.bias.data.zero_()
-        self.inp.weight.data = torch.randn(self.inp.weight.size()) * 0.1
-        #
         self.rnn.bias_ih_l0.data.zero_()
         self.rnn.weight_ih_l0.data = (
             torch.randn(self.rnn.weight_ih_l0.size()) * 0.1)
@@ -59,15 +59,16 @@ class RNNModel(nn.Module):
         self.decoder.bias.data.zero_()
         self.decoder.weight.data = (
             torch.randn(self.decoder.weight.size()) * 0.1)
-        #
-        if self.embSize > 0:
+        #        
+        self.encoder.weight.data = (
+            torch.randn(self.encoder.weight.size()) * 0.1)
+        if self.embSize <= 0:
+            # The linear encoder has bias but the embedding layer doesn't
             self.encoder.bias.data.zero_()
-            self.encoder.weight.data = (
-                torch.randn(self.encoder.weight.size()) * 0.1)
 
     def forward(self, input, hidden):
         if self.embSize > 0:
-            inputs = self.encoder(input)
+            inp = self.encoder(input)
         else:
             # to oneHot
             inputs = torch.empty(input.shape[0], input.shape[1], self.ntoken).to(self.device)
@@ -75,8 +76,7 @@ class RNNModel(nn.Module):
                 for y in range(input.shape[1]):
                     inputs[x, y, :] = torch.Tensor(np.arange(self.ntoken)).long().to(self.device) \
                     == input[x, y]
-
-        inp = self.inp(inputs)
+            inp = self.encoder(inputs)
         output, hidden = self.rnn(inp, hidden)
         output = self.drop(output)
         decoded = self.decoder(output.view(output.size(0)*output.size(1), output.size(2)))
