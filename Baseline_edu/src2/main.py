@@ -191,13 +191,18 @@ def generate_metrics(data, model, k):
         encodings = start_enc_seq + [next_1] + next_enc_n
 
         real_sentence = " ".join(char_seq)
-        predicted_sentence = " ".join([corpus.dictionary.idx2word[w] for w in encodings])
+        predicted_seq = [corpus.dictionary.idx2word[w] for w in encodings]
+        predicted_sentence = " ".join(predicted_seq)
+
+        accuracy = len([1 for r, p in zip(char_seq, predicted_seq) if r == p]) / len(char_seq)
 
         if args.show_predictions_during_evaluation:
             print("REFERENCE:", " ".join(real_sentence))
             print("PREDICTED:", " ".join(predicted_sentence))
-        yield EVALUATOR.compute_individual_metrics(ref=[" ".join(real_sentence)],
-                                                   hyp=" ".join(predicted_sentence))
+        metrics = EVALUATOR.compute_individual_metrics(ref=[" ".join(real_sentence)],
+                                                       hyp=" ".join(predicted_sentence))
+        metrics["accuracy"] = acc
+        yield metrics
 
 
 def evaluate(data_source):
