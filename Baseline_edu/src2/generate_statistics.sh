@@ -14,7 +14,7 @@ DATASETS=${DATASETS:-"wikitext-2"}
 # Predict k words
 K=${K:-"3 5 10"}
 # Embedding size - must be the same size as the hidden layer, apparently
-# EMSIZES="100 200 500"
+EMSIZES="0 100 200 500"
 # Backprop through time
 BPTT=${BPTT:-"8 16 32"}
 
@@ -33,22 +33,25 @@ for dataset in $DATASETS; do
                     echo "Dropout: $dropout"
                     for k in $K; do
                         echo "K: $k"
-                        for bptt in $BPTT; do
-                            echo "BPTT: $bptt"
-                            echo "Training models/ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-em-bptt-$bptt.npy"
-                            python main.py \
-                                --data data/$dataset \
-                                --epochs 10 \
-                                --cuda \
-                                --nlayers $layer \
-                                --bptt $bptt \
-                                --dropout $dropout \
-                                --emsize $hidden \
-                                --nhid $hidden \
-                                --model $model \
-                                --seed 42 \
-                                --save models/ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-bptt-$bptt.npy \
-                                --save-statistics statistics//ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-bptt-$bptt.csv;
+                        for embsize in $EMBSIZES; do
+                            echo "Embedding size: $embsize"
+                            for bptt in $BPTT; do
+                                echo "BPTT: $bptt"
+                                echo "Training models/ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-em-bptt-$bptt.npy"
+                                python main.py \
+                                    --data data/$dataset \
+                                    --epochs 5 \
+                                    --cuda \
+                                    --nlayers $layer \
+                                    --bptt $bptt \
+                                    --dropout $dropout \
+                                    --emsize $embsize \
+                                    --nhid $hidden \
+                                    --model $model \
+                                    --seed 42 \
+                                    --save models_new/ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-bptt-em-$embsize-$bptt.npy \
+                                    --save-statistics statistics_new//ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-em-$embsize-bptt-$bptt.csv;
+                            done
                         done
                     done
                 done
