@@ -201,7 +201,7 @@ def generate_metrics(data, model, k):
             print("PREDICTED:", " ".join(predicted_sentence))
         metrics = EVALUATOR.compute_individual_metrics(ref=[" ".join(real_sentence)],
                                                        hyp=" ".join(predicted_sentence))
-        metrics["accuracy"] = acc
+        metrics["accuracy"] = accuracy
         yield metrics
 
 
