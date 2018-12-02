@@ -290,6 +290,7 @@ try:
 
         # Append statistics here, we will dump them later
         statistics['val_loss'] = val_loss
+        statistics['ppl'] = math.exp(val_loss)
         collected_statistics = collected_statistics.append(statistics, ignore_index=True)
 
         print('-' * 89)
@@ -318,6 +319,8 @@ with open(args.save, 'rb') as f:
 
 # Run on test data.
 test_loss, statistics = evaluate(test_data)
+statistics['val_loss'] = test_loss
+statistics['ppl'] = math.exp(test_loss)
 collected_statistics = collected_statistics.append(statistics, ignore_index=True)
 print('=' * 89)
 print('| End of training | test loss {:5.2f} | test ppl {:8.2f} {}'.format(
