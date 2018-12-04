@@ -50,7 +50,7 @@ parser.add_argument('--cuda', action='store_true',
                     help='use CUDA')
 parser.add_argument('--log-interval', type=int, default=200, metavar='N',
                     help='report interval')
-parser.add_argument('--save', type=str, default='model.pt',
+parser.add_argument('--save', type=str, default=None,
                     help='path to save the final model')
 parser.add_argument('--onnx-export', type=str, default='',
                     help='path to export the final model in onnx format')
@@ -300,8 +300,9 @@ try:
         print('-' * 89)
         # Save the model if the validation loss is the best we've seen so far.
         if not best_val_loss or val_loss < best_val_loss:
-            with open(args.save, 'wb') as f:
-                torch.save(model, f)
+            if args.save:
+                with open(args.save, 'wb') as f:
+                    torch.save(model, f)
             best_val_loss = val_loss
         else:
             # Anneal the learning rate if no improvement has been seen in the validation dataset.
@@ -310,12 +311,13 @@ except KeyboardInterrupt:
     print('-' * 89)
     print('Exiting from training early')
 
-# Load the best saved model.
-with open(args.save, 'rb') as f:
-    model = torch.load(f)
-    # after load the rnn params are not a continuous chunk of memory
-    # this makes them a continuous chunk, and will speed up forward pass
-    model.rnn.flatten_parameters()
+# Load the best saved model if we were saving them.
+if args.save:
+    with open(args.save, 'rb') as f:
+        model = torch.load(f)
+        # after load the rnn params are not a continuous chunk of memory
+        # this makes them a continuous chunk, and will speed up forward pass
+        model.rnn.flatten_parameters()
 
 # Run on test data.
 test_loss, statistics = evaluate(test_data)
