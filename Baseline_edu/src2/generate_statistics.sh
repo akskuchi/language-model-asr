@@ -37,7 +37,7 @@ for dataset in $DATASETS; do
                             echo "Embedding size: $embsize"
                             for bptt in $BPTT; do
                                 echo "BPTT: $bptt"
-                                echo "Training models/ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-em-bptt-$bptt.npy"
+                                echo "Training models/ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-em-$embsize-bptt-$bptt.npy"
                                 python main.py \
                                     --data data/$dataset \
                                     --epochs 5 \
