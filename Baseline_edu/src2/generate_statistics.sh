@@ -49,7 +49,6 @@ for dataset in $DATASETS; do
                                     --nhid $hidden \
                                     --model $model \
                                     --seed 42 \
-                                    --save models_new/ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-bptt-em-$embsize-$bptt.npy \
                                     --save-statistics statistics_new//ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-em-$embsize-bptt-$bptt.csv;
                             done
                         done
