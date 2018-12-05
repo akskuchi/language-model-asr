@@ -55,6 +55,8 @@ parser.add_argument('--save', type=str, default=None,
 parser.add_argument('--onnx-export', type=str, default='',
                     help='path to export the final model in onnx format')
 parser.add_argument('--save-statistics', type=str, default=None)
+parser.add_argument('--initialization', type=str, default="rand",
+                    help='"rand" (var=0.1), "xavier", "Kaiming"')
 args = parser.parse_args()
 
 # Set the random seed manually for reproducibility.
@@ -103,7 +105,8 @@ test_data = batchify(corpus.test, eval_batch_size)
 ###############################################################################
 
 ntokens = len(corpus.dictionary)
-model = model.RNNModel(args.model, ntokens, args.emsize, args.nhid, args.nlayers, device, args.tied, args.dropout).to(device)
+model = model.RNNModel(args.model, ntokens, args.emsize, args.nhid, args.nlayers, 
+                       device, args.tied, args.dropout, args.initialization).to(device)
 
 criterion = nn.CrossEntropyLoss()
 

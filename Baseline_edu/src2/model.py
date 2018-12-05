@@ -7,7 +7,7 @@ class RNNModel(nn.Module):
     """Container module with an encoder, a recurrent module, and a decoder."""
 
     def __init__(self, rnn_type, ntoken, emsize, nhid, nlayers, device, tie_weights=False, 
-                 dropout=0.00):
+                 dropout=0.00, initialization="rand"):
         super(RNNModel, self).__init__()
         self.device = device
         self.drop = nn.Dropout(dropout)
@@ -40,7 +40,12 @@ class RNNModel(nn.Module):
                 raise ValueError('When using the tied flag, nhid must be equal to emsize')
             self.decoder.weight = self.encoder.weight
 
-        self.init_weights()
+        if initialization == "xavier":
+            self.init_weights_xavier()
+        elif initialization == "kaiming":
+            self.init_weights_kaiming()
+        else:
+            self.init_weights()
 
         self.rnn_type = rnn_type
         self.nhid = nhid
@@ -48,7 +53,35 @@ class RNNModel(nn.Module):
         
         self.ntoken = ntoken
 
-    def init_weights(self):
+    def init_weights_xavier(self):
+        self.rnn.bias_ih_l0.data.zero_()
+        nn.init.xavier_uniform_(self.rnn.weight_ih_l0)
+        self.rnn.bias_hh_l0.data.zero_()
+        nn.init.xavier_uniform_(self.rnn.weight_hh_l0)        
+        #
+        self.decoder.bias.data.zero_()
+        nn.init.xavier_uniform_(self.decoder.weight)
+        #        
+        nn.init.xavier_uniform_(self.encoder.weight)
+        if self.embSize <= 0:
+            # The linear encoder has bias but the embedding layer doesn't
+            self.encoder.bias.data.zero_()
+            
+    def init_weights_kaiming(self):
+        self.rnn.bias_ih_l0.data.zero_()
+        nn.init.kaiming_uniform_(self.rnn.weight_ih_l0)
+        self.rnn.bias_hh_l0.data.zero_()
+        nn.init.kaiming_uniform_(self.rnn.weight_hh_l0)        
+        #
+        self.decoder.bias.data.zero_()
+        nn.init.kaiming_uniform_(self.decoder.weight)
+        #        
+        nn.init.kaiming_uniform_(self.encoder.weight)
+        if self.embSize <= 0:
+            # The linear encoder has bias but the embedding layer doesn't
+            self.encoder.bias.data.zero_()
+
+    def init_weights_mikolov2010(self):
         self.rnn.bias_ih_l0.data.zero_()
         self.rnn.weight_ih_l0.data = (
             torch.randn(self.rnn.weight_ih_l0.size()) * 0.1)
