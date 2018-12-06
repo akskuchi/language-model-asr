@@ -6,18 +6,18 @@ import numpy as np
 class RNNModel(nn.Module):
     """Container module with an encoder, a recurrent module, and a decoder."""
 
-    def __init__(self, rnn_type, ntoken, emsize, nhid, nlayers, device, tie_weights=False, 
+    def __init__(self, rnn_type, ntoken_in, ntoken_out, emsize, nhid, nlayers, device, tie_weights=False, 
                  dropout=0.00, initialization="rand"):
         super(RNNModel, self).__init__()
         self.device = device
         self.drop = nn.Dropout(dropout)
         self.embSize = emsize
         if self.embSize > 0:
-            self.encoder = nn.Embedding(ntoken, self.embSize)
+            self.encoder = nn.Embedding(ntoken_in, self.embSize)
             ninp = self.embSize
         else:
-            self.encoder = nn.Linear(ntoken, ntoken)
-            ninp = ntoken
+            self.encoder = nn.Linear(ntoken_in, ntoken_in)
+            ninp = ntoken_in
         if rnn_type in ['LSTM', 'GRU']:
             self.rnn = getattr(nn, rnn_type)(ninp, nhid, nlayers,  dropout=dropout)
         else:
@@ -27,7 +27,7 @@ class RNNModel(nn.Module):
                 raise ValueError( """An invalid option for `--model` was supplied,
                                  options are ['LSTM', 'GRU', 'RNN_TANH' or 'RNN_RELU']""")
             self.rnn = nn.RNN(ninp, nhid, nlayers, nonlinearity=nonlinearity,  dropout=dropout)
-        self.decoder = nn.Linear(nhid, ntoken)
+        self.decoder = nn.Linear(nhid, ntoken_out)
 
         # Optionally tie weights as in:
         # "Using the Output Embedding to Improve Language Models" (Press & Wolf 2016)
@@ -51,7 +51,8 @@ class RNNModel(nn.Module):
         self.nhid = nhid
         self.nlayers = nlayers
         
-        self.ntoken = ntoken
+        self.ntoken_in = ntoken_in
+        self.ntoken_out = ntoken_out
 
     def init_weights_xavier(self):
         self.rnn.bias_ih_l0.data.zero_()
@@ -104,16 +105,18 @@ class RNNModel(nn.Module):
             inp = self.encoder(input)
         else:
             # to oneHot
-            inputs = torch.empty(input.shape[0], input.shape[1], self.ntoken).to(self.device)
+            inputs = torch.empty(input.shape[0], input.shape[1], self.ntoken_in).to(self.device)
             for x in range(input.shape[0]):
                 for y in range(input.shape[1]):
-                    inputs[x, y, :] = torch.Tensor(np.arange(self.ntoken)).long().to(self.device) \
+                    inputs[x, y, :] = torch.Tensor(np.arange(self.ntoken_in)).long().to(self.device) \
                     == input[x, y]
             inp = self.encoder(inputs)
         output, hidden = self.rnn(inp, hidden)
         output = self.drop(output)
         decoded = self.decoder(output.view(output.size(0)*output.size(1), output.size(2)))
-        return decoded.view(output.size(0), output.size(1), decoded.size(1)), hidden
+        decoded = decoded.view(output.size(0), output.size(1), decoded.size(1))
+
+        return decoded, hidden
 
     def init_hidden(self, bsz):
         weight = next(self.parameters())

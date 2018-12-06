@@ -17,6 +17,8 @@ K=${K:-"3 5 10"}
 EMSIZES="0 100 200 500"
 # Backprop through time
 BPTT=${BPTT:-"8 16 32"}
+# Shortlists
+SHORTLIST=${SHORTLIST:-"-1"}
 
 mkdir -p models
 mkdir -p statistics
@@ -37,19 +39,22 @@ for dataset in $DATASETS; do
                             echo "Embedding size: $embsize"
                             for bptt in $BPTT; do
                                 echo "BPTT: $bptt"
-                                echo "Training models/ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-em-$embsize-bptt-$bptt.npy"
-                                python main.py \
-                                    --data data/$dataset \
-                                    --epochs 5 \
-                                    --cuda \
-                                    --nlayers $layer \
-                                    --bptt $bptt \
-                                    --dropout $dropout \
-                                    --emsize $embsize \
-                                    --nhid $hidden \
-                                    --model $model \
-                                    --seed 42 \
-                                    --save-statistics statistics_new//ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-em-$embsize-bptt-$bptt.csv;
+                                for shortlist in $SHORTLIST; do
+                                    echo "Training models/ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-em-$embsize-bptt-$bptt-shortlist-$shortlist.npy"
+                                    python main.py \
+                                        --data data/$dataset \
+                                        --epochs 5 \
+                                        --cuda \
+                                        --nlayers $layer \
+                                        --bptt $bptt \
+                                        --dropout $dropout \
+                                        --emsize $embsize \
+                                        --nhid $hidden \
+                                        --model $model \
+                                        --shortlist $shortlist \
+                                        --seed 42 \
+                                        --save-statistics statistics_new//ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-em-$embsize-bptt-$bptt-shortlist-$shortlist.csv;
+                                done
                             done
                         done
                     done

@@ -41,6 +41,8 @@ parser.add_argument('--dropout', type=float, default=0.2,
                     help='dropout applied to layers (0 = no dropout)')
 parser.add_argument('--tied', action='store_true',
                     help='tie the word embedding and softmax weights')
+parser.add_argument('--shortlist', type=int, help='How many words to include in the shortlist (-1 for no shortlist)', default=None)
+parser.add_argument('--unk-token', type=str, help='Word for unknown token in corpus', default='<unk>')
 parser.add_argument('--metrics-k', type=int, help='How many words to predict for metrics', default=3)
 parser.add_argument('--show-predictions-during-evaluation', action='store_true',
                     help='Whether to show predicted sentences during evaluation')
@@ -72,7 +74,7 @@ device = torch.device("cuda" if args.cuda else "cpu")
 ###############################################################################
 
 print("MODEL: Loading corpus")
-corpus = data.Corpus(args.data)
+corpus = data.Corpus(args.data, shortlist=args.shortlist, unk_token=args.unk_token)
 
 # Starting from sequential data, batchify arranges the dataset into columns.
 # For instance, with the alphabet as the sequence and batch size 4, we'd get
@@ -104,14 +106,16 @@ test_data = batchify(corpus.test, eval_batch_size)
 # Build the model
 ###############################################################################
 
-ntokens = len(corpus.dictionary)
-model = model.RNNModel(args.model, ntokens, args.emsize, args.nhid, args.nlayers, 
-                       device, args.tied, args.dropout, args.initialization).to(device)
+ntokens_out = len(corpus.dictionary)
+ntokens_in = len(corpus.dictionary.idx2word)
+model = model.RNNModel(args.model, ntokens_in, ntokens_out, args.emsize, args.nhid,
+                       args.nlayers, device, args.tied, args.dropout, args.initialization).to(device)
 
 criterion = nn.CrossEntropyLoss()
 
 
 def batch_to_word_sequence(data):
+    """Convert an input batch into a sequence of words and word indices."""
     data_npy = data.cpu().detach().numpy()
 
     return [
@@ -171,7 +175,7 @@ def predict_n(model, n, hidden, last):
     for i in range(n):
         output, hidden = model(torch.tensor(np.array([[last]]).T).to(device), hidden)
         last = output_to_preds(output)[0]
-        yield last
+        yield corpus.dictionary.reverse_shortlist_mapping[last]
 
 
 def generate_metrics(data, model, k):
@@ -200,19 +204,29 @@ def generate_metrics(data, model, k):
         accuracy = len([1 for r, p in zip(char_seq, predicted_seq) if r == p]) / len(char_seq)
 
         if args.show_predictions_during_evaluation:
-            print("REFERENCE:", " ".join(real_sentence))
-            print("PREDICTED:", " ".join(predicted_sentence))
+            print("REFERENCE:", "".join(real_sentence))
+            print("PREDICTED:", "".join(predicted_sentence))
         metrics = EVALUATOR.compute_individual_metrics(ref=[" ".join(real_sentence)],
                                                        hyp=" ".join(predicted_sentence))
         metrics["accuracy"] = accuracy
         yield metrics
 
 
+def repackage_with_shortlist(targets, dictionary):
+    """Given some targets array, move it back to the CPU shortistify it.
+
+    This should have no effect if shortlists are disabled.
+    """
+    targets_array = targets.detach().cpu().numpy()
+    repackaged = np.array([dictionary.shortlist_mapping[w] for w in targets_array.flatten()]).reshape(targets_array.shape)
+    return torch.tensor(repackaged).long().to(device)
+
+
 def evaluate(data_source):
     # Turn on evaluation mode which disables dropout.
     model.eval()
     total_loss = 0.
-    ntokens = len(corpus.dictionary)
+    ntokens_out = len(corpus.dictionary)
     hidden = model.init_hidden(eval_batch_size)
     recorded_metrics = []
     with torch.no_grad():
@@ -220,7 +234,8 @@ def evaluate(data_source):
         for i in range(0, min(data_source.size(0) - 1, 1000), args.bptt):
             data, targets = get_batch(data_source, i)
             output, hidden = model(data, hidden)
-            output_flat = output.view(-1, ntokens)
+            output_flat = output.view(-1, ntokens_out)
+            targets = repackage_with_shortlist(targets, corpus.dictionary)
             total_loss += len(data) * criterion(output_flat, targets).item()
             hidden = repackage_hidden(hidden)
 
@@ -233,16 +248,17 @@ def train():
     model.train()
     total_loss = 0.
     start_time = time.time()
-    ntokens = len(corpus.dictionary)
+    ntokens_out = len(corpus.dictionary)
     hidden = model.init_hidden(args.batch_size)
     for batch, i in enumerate(range(0, train_data.size(0) - 1, args.bptt)):
         data, targets = get_batch(train_data, i)
+        targets = repackage_with_shortlist(targets, corpus.dictionary)
         # Starting each batch, we detach the hidden state from how it was previously produced.
         # If we didn't, the model would try backpropagating all the way to start of the dataset.
         hidden = repackage_hidden(hidden)
         model.zero_grad()
         output, hidden = model(data, hidden)
-        loss = criterion(output.view(-1, ntokens), targets)
+        loss = criterion(output.view(-1, ntokens_out), targets)
         loss.backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
