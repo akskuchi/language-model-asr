@@ -59,6 +59,8 @@ parser.add_argument('--onnx-export', type=str, default='',
 parser.add_argument('--save-statistics', type=str, default=None)
 parser.add_argument('--initialization', type=str, default="rand",
                     help='"rand" (var=0.1), "xavier", "Kaiming"')
+parser.add_argument('--batch-norm', action='store_true', default=False,
+                    help='Whether to use batch normalization')
 args = parser.parse_args()
 
 # Set the random seed manually for reproducibility.
@@ -109,7 +111,7 @@ test_data = batchify(corpus.test, eval_batch_size)
 ntokens_out = len(corpus.dictionary)
 ntokens_in = len(corpus.dictionary.idx2word)
 model = model.RNNModel(args.model, ntokens_in, ntokens_out, args.emsize, args.nhid,
-                       args.nlayers, device, args.tied, args.dropout, args.initialization).to(device)
+                       args.nlayers, device, args.tied, args.dropout, args.initialization, args.batch_norm).to(device)
 
 criterion = nn.CrossEntropyLoss()
 
@@ -264,7 +266,9 @@ def train():
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
         torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
         for p in model.parameters():
-            p.data.add_(-lr, p.grad.data)
+            # Some parameters don't have gradients...
+            if p is not None and getattr(p, 'grad', None) is not None:
+                p.data.add_(-lr, p.grad.data)
 
         total_loss += loss.item()
 

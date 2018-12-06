@@ -7,7 +7,7 @@ class RNNModel(nn.Module):
     """Container module with an encoder, a recurrent module, and a decoder."""
 
     def __init__(self, rnn_type, ntoken_in, ntoken_out, emsize, nhid, nlayers, device, tie_weights=False, 
-                 dropout=0.00, initialization="rand"):
+                 dropout=0.00, initialization="rand", use_bn=False):
         super(RNNModel, self).__init__()
         self.device = device
         self.drop = nn.Dropout(dropout)
@@ -18,6 +18,10 @@ class RNNModel(nn.Module):
         else:
             self.encoder = nn.Linear(ntoken_in, ntoken_in)
             ninp = ntoken_in
+
+        self.encoder_bn = nn.BatchNorm1d(ninp, track_running_stats=False)
+        self.hidden_bn = nn.BatchNorm1d(nhid, track_running_stats=False)
+
         if rnn_type in ['LSTM', 'GRU']:
             self.rnn = getattr(nn, rnn_type)(ninp, nhid, nlayers,  dropout=dropout)
         else:
@@ -50,7 +54,7 @@ class RNNModel(nn.Module):
         self.rnn_type = rnn_type
         self.nhid = nhid
         self.nlayers = nlayers
-        
+        self.use_bn = use_bn
         self.ntoken_in = ntoken_in
         self.ntoken_out = ntoken_out
 
@@ -111,6 +115,11 @@ class RNNModel(nn.Module):
                     inputs[x, y, :] = torch.Tensor(np.arange(self.ntoken_in)).long().to(self.device) \
                     == input[x, y]
             inp = self.encoder(inputs)
+
+        if self.use_bn:
+            inp = self.encoder_bn(inp)
+            hidden = self.hidden_bn(hidden)
+
         output, hidden = self.rnn(inp, hidden)
         output = self.drop(output)
         decoded = self.decoder(output.view(output.size(0)*output.size(1), output.size(2)))
