@@ -45,7 +45,7 @@ class RNNModel(nn.Module):
         elif initialization == "kaiming":
             self.init_weights_kaiming()
         else:
-            self.init_weights_milkolov2010()
+            self.init_weights_mikolov2010()
 
         self.rnn_type = rnn_type
         self.nhid = nhid
