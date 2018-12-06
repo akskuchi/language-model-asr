@@ -19,6 +19,8 @@ EMSIZES="0 100 200 500"
 BPTT=${BPTT:-"8 16 32"}
 # Shortlists
 SHORTLIST=${SHORTLIST:-"-1"}
+# Where to save things
+SAVE=${SAVE:-"statistics_new"}
 
 mkdir -p models
 mkdir -p statistics
@@ -53,7 +55,8 @@ for dataset in $DATASETS; do
                                         --model $model \
                                         --shortlist $shortlist \
                                         --seed 42 \
-                                        --save-statistics statistics_new//ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-em-$embsize-bptt-$bptt-shortlist-$shortlist.csv;
+                                        --save-statistics $SAVE//ds-$dataset-model-$model-l-$layer-h-$hidden-d-$dropout-k-$k-em-$embsize-bptt-$bptt-shortlist-$shortlist.csv \
+                                        $@;
                                 done
                             done
                         done
