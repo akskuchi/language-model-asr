@@ -29,6 +29,10 @@ class Dictionary(object):
         self.shortlist_mapping[self.word2idx[self.unk_token]] = len(self.shortlist_mapping)
         self.reverse_shortlist_mapping.append(self.word2idx[self.unk_token])
         for word, freq in self.word_frequencies.most_common(None if length == -1 else length):
+            # We already added this, skip it
+            if word == self.unk_token:
+                continue
+
             self.shortlist_mapping[self.word2idx[word]] = len(self.shortlist_mapping)
             self.reverse_shortlist_mapping.append(self.word2idx[word])
 
