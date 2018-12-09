@@ -1,0 +1,243 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+
+\title{Neural Network Language Models for Automatic Speech Recognition}
+
+\author{Aditya Kaushik, Eduardo Rosado, Thomas Spilsbury}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+In this paper we compare Recurrent Neural Network (RNN)
+approximations of language models to traditional n-gram based models.
+We evaluate different recurrent model architectures, hyperparameter configurations,
+encoder and decode configurations and regularization and intialization procedures
+and compare their performance on various performance and natural language
+generation metrics. We find that in general, Long Short-Term Memory models
+with embedding layers at the encoder stage outperforms other models
+in terms of inference metrics and computational performance.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+
+One important problem faced by Automatic Speech Recognition (ASR)
+systems is transcribing utterances by speakers into intelligible written language.
+In general, this is a difficult problem to solve due to the varying length
+of utterances and ambiguity of classification between one utterance for another. The result
+is that the recognized transcript is likely
+to contain many words that are not
+intelligible, even if the transcribed words
+are the system's most likely direct
+transcription from sounds to syllables.
+
+As an alternative, we can make use of prior
+information about the language to select
+words from a vocabulary given some
+observations of sounds or characters and the words
+that have been predicted beforehand. The language model,
+then, uses information about the sequence of prior
+predicted words to give a probability distribution
+for the next word, such that the ASR system would
+pick the next word based both on what are the most
+likely following words given a sequence as well
+as the utterance that is made by the speaker.
+
+Prior to the introduction of RNNs, most language models used n-grams
+in Hidden Markov Model chains, where it was assumed that the $k$th
+word depended only on the prior $n$ words. One key problem
+with this model is that the context window is of a fixed size, leading
+to a horizon problem. The Horizon problem occur because a if there were a word
+in the word sequence which is extremely predictive of the $(n + 1)$th
+word away from the current word, that would would simply not be taken
+into account in that model. Worse still, the fixed size context window
+means that unnecessary weight is put on words that happen to be in the context
+window that may actually not be all that predictive were the context window
+infinite.
+
+In contrast, RNN's seek to solve this problem by introducing a Neural Network
+architecture with recurrent connections, meaning that as the RNN makes predictions
+over a sequence observations, it takes into account a hidden layer produced
+by the previous observation (which in turn was a product of all the observations
+before that). In effect, the RNN architecture encodes the contextual history
+into the hidden layer vector allowing for an encoded approximation of infinite
+contextual history.
+
+Since the publication of \cite{Milkolov10}, new RNN approaches have shown
+improvement on the state-of-the-art. We examine these new architectures and
+techniques for future work discussed in the Milkolov paper and analyze whether their
+results indicate that improvements can be made on the baseline set by the paper.
+
+\section{Data}
+\label{sec:data}
+
+The first dataset we use is the WikiText dataset. This is a smaller dataset than
+Gigaword and WSJ'92, but allowed us to
+iterate faster and run more experiments.
+
+This dataset is based on articles from
+Wikipedia, containing 2,088,628 tokens
+in the training set, 245,569 tokens in
+the test set and 217,646 tokens in the
+validation set.
+
+Samples from the Dataset include:
+
+"As with previous <unk> Chronicles games , Valkyria Chronicles III is a …"
+
+"At Nintendo CEO Hiroshi Yamauchi 's request , Game Boy creator Gunpei Yokoi 's Nintendo R & D1 developed …"
+
+"It was larger than the Scientific , at 73 by 155 by 34 millimetres ..."
+
+This dataset contained quite a lot of
+technical or domain specific
+terminology due to the fact that the
+sentences within were derived from
+encyclopedic articles. This inherently
+makes accurate prediction difficult, since
+there is a higher likelihood that the
+following word might be infrequent in the
+corpus.
+
+\section{Metrics}
+\label{sec:metrics}
+
+Models are evaluated by taking a sequence
+of words from the validation set, removing
+$k$ words from the end of the sentence and predicting
+the next $k$ words from the existing $n - k$ word sequence.
+
+\subsection{Perplexity}
+\label{sec:perplexity}
+
+Perplexity is a measure of "how generalized" the language
+model is. A higher perplexity indicates a greater uncertainty
+was encountered when predicting sequences of words. Formally,
+it is the inverse probability of a text sequence normalized
+by the number of tokens.
+
+$$ PP(W) = \sqrt{\prod \frac{1}{P(w|w_1, ..., w_{i - 1}}} $$
+
+Note that perplexity is an "intrinsic metric", it does not
+have anything to do with the quality of the predicted
+sentences, but instead is based on the certainty of the
+model itself.
+
+\subsection{ROUGE}
+\label{sec:rouge}
+
+In contrast, metrics such as ROUGE (which is an improvement
+on BLEU) measure the quality of a sentence in terms of
+their similarity to human generated language. These metrics
+are called "extrinsic metrics".
+
+The most basic form of such extrinsic metric is "word error
+rate" (WER), defined as:
+
+$$ WER = \frac{S + D + I}{N} $$, where $N$ is the number of
+words and $S, D, I$ are substituions, deletions, insertions.
+
+However, such a metric doesn't take int account the fact that
+a recognized sequence may differ in length to a reference
+sequence.
+
+Improving on this situation, ROUGE measures based on the
+longest matching subsequences, overlapping pairs and n-gram
+co-occurrences.
+
+\subsection{Naive Accuracy}
+Accuracy is measured naively by comparing
+a validation set sentence to a predicted sentence and
+seeing how many words the model predicted correctly.
+
+\section{Models}
+\label{sec:models}
+
+\subsection{RNN}
+\label{sec:lstm}
+
+A simple RNN (Elman network) as described in the Milkolov
+paper consists of a single linear layer and non-linear
+activation (in our case, the $tanh$ function, $ \frac{e^{2x} - 1}{e^{2x} + 1} $, with domain $[ -\infty, \infty ]$ and
+range $ [-1, 1] $. The inputs to the network are
+a hidden state vector, $h_{t}$, where the size is a hyperparameter
+and the input encoding vector $i_{t}$. The output of the network
+is the updated hidden state vector $h_{t + 1}$, which will will
+be passed as the hidden state vector when processing the $i_{t + 1}$th
+word, and the output encoding vector $o_{t}$, which can be
+viewed as a discrete probability distribution for the predicted word
+at $t$ by applying the softmax function $ \frac{e^x}{\sum e^x_i} $.
+
+The trainable parameters of the RNN are the weights of the linear
+layer which determine how information from the previous state of the
+hidden state vector and the incoming word vector encoding are encoded
+into both the updated hidden state vector and output word vector encoding.
+
+The RNN is trained via "back-propagation through time" (BPTT), which is
+effectively the same as the back-propgation algorithm proposed for feed-forward
+neural networks, but applied to the recurrent structure of the RNN. In effect,
+BPTT involves the same application of the chain rule to recurrent function
+applications, and hidden layer states, but usually with some sort of threshold
+to prevent computational complexity scaling with the number of tokens the
+network has seen so far. In practice this means that the hidden layer encodes
+a context window \emph{up to} to a certain length, but no longer than
+that length.
+
+\subsection{LSTM}
+\label{sec:lstm}
+
+\subsection{GRU}
+\label{sec:gru}
+
+\section{Encoding and Decoding}
+\label{sec:encdec}
+
+\subsection{Embeddings}
+\label{sec:embedddings}
+
+\subsection{Shortlists}
+\label{sec:shortlists}
+
+\subsection{Tied Weights}
+\label{sec:tiedweights}
+
+\section{Regularization}
+\label{sec:regularization}
+
+\subsection{Dropout}
+\label{sec:dropout}
+
+\section{Initialization}
+\label{sec:initialization}
+
+\subsection{Xavier}
+\label{sec:xavier}
+
+\section{Model Configurations}
+\label{sec:configuration}
+
+\section{Experimental Results}
+\label{sec:results}
+
+\section{Analysis}
+\label{sec:analysis}
+
+\section{Future Work}
+\label{sec:future}
+
+\begin{thebibliography}{9}
+\bibitem{nano3}
+  K. Grove-Rasmussen og Jesper Nygård,
+  \emph{Kvantefænomener i Nanosystemer}.
+  Niels Bohr Institute \& Nano-Science Center, Københavns Universitet
+
+\end{thebibliography}
+\end{document}
