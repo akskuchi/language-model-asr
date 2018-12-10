@@ -440,6 +440,169 @@ We ran two sets of experiments on each dataset. Because of the difference in siz
 between the Gigaword and WikiText datasets we were able to run more tests on the
 WikiText dataset and scale a few of those results up to Gigaword.
 
+\section{Performance by Model Architecture}
+\label{sec:perf_by_model_arch}
+
+\begin{figure}[h]
+\includegraphics{sr-perf-by-model-architecture}
+\centering
+\caption{Validation Set Performance by Model Architecture on WikiText}
+\end{figure}
+
+Comparing each of the three models with 200 hidden units, 2 layers and
+no dropout or embeddings, trained to five epochs in batches of 200 sentences at a
+time, we see that the LSTM model generally outperforms all three on all metrics.
+It has the lowest overall perplexity, highest METEOR score after five iterations
+and highest overall naive accuracy, scoring roughly one half a percentage point
+higher than the other two models.
+
+\section{Performance by number of hidden layers}
+\label{sec:perf_by_n_layers}
+
+\begin{figure}[h]
+\includegraphics{sr-perf-by-hidden-lstm}
+\includegraphics{sr-perf-by-hidden-gru}
+\includegraphics{sr-perf-by-hidden-rnn}
+\centering
+\caption{Validation Set Performance by number of Hidden Layers on WikiText}
+\end{figure}
+
+We measured differences in performance with both one and two hidden layers
+on the RNN cell for each model architecture with 200 hidden units per cell, trained
+to five epochs in batches of 200 sentences at a time.
+
+In general, we find that increasing the number of hidden layers on the network
+increases performance on all metrics, probably because the model is able to
+encode more information from the training set in its layers recurrent layers.
+
+We notice that in the Elman Network RNN training was generally unstable and
+increasing the number of layers gave inconclusive results.
+
+\section{Performance by number of hidden units}
+\label{sec:perf_by_n_hidden}
+
+\begin{figure}[h]
+\includegraphics{sr-perf-by-hidden-units-lstm}
+\includegraphics{sr-perf-by-hidden-units-gru}
+\includegraphics{sr-perf-by-hidden-units-rnn}
+\centering
+\caption{Validation Set Performance by number of Hidden Units on WikiText}
+\end{figure}
+
+We measured differences in performance with 60, 90, 150 and 200 hidden units per
+RNN cell for each model architecture with 1 RNN cell, trained
+to five epochs in batches of 200 sentences at a time.
+
+In general we found that like increasing the number of layers,
+increasing the number of hidden units per layer can help with overall accuracy,
+but not as much as increasing the number of layers does. In fact, having a fewer
+number of hidden units may act as a regularizer which would help to prevent
+overfitting and improve accuracy on the validation data.
+
+\section{Performance by Dropout}
+\label{sec:perf_by_dropout}
+
+\begin{figure}[h]
+\includegraphics{sr-perf-by-dropout-lstm}
+\includegraphics{sr-perf-by-dropout-gru}
+\includegraphics{sr-perf-by-dropout-rnn}
+\centering
+\caption{Validation Set Performance by Dropout Probability on WikiText}
+\end{figure}
+
+We measured differences in performance with dropout probabilities
+0.0, 0.01, 0.05, 0.1, 0.2 per RNN cell for each model architecture with
+1 RNN cell, 200 hidden units, trained to five epochs in batches of 200
+sentences at a time.
+
+For GRU cells, we find that small amounts of dropout (0.01-0.05) can act
+as an effective regularizer and improve accuracy and ROUGE scores on unseen
+data by a few tenths of a percentage point. For LSTM cells we find that
+dropout did not assist all that much, indicating that perhaps those models were
+not already starting to overfit by five epochs. For RNN cells, we observed
+that again, training was quite unstable that it was difficult to observe what
+difference, if any, dropout had on the metrics.
+
+\section{Performance by Embedding Dimensions}
+\label{sec:perf_by_embedding}
+
+\begin{figure}[h]
+\includegraphics{sr-perf-by-embedding-lstm}
+\includegraphics{sr-perf-by-embedding-gru}
+\includegraphics{sr-perf-by-embedding-rnn}
+\centering
+\caption{Validation Set Performance by Embedding Dimension on WikiText}
+\end{figure}
+
+We measured differences in performance with embedding sizes 0, 50,
+100, 200 and 500 at the encoder layer for each model architecture with
+1 RNN cell, 200 hidden units, trained to five epochs in batches of 200
+sentences at a time.
+
+On both LSTM and GRU models, any use of encoder embeddings noticably outperformed
+one-hot encoding on almost all metrics, except METEOR for LSTMs. It seems to be
+the case that the learned embeddings encoded useful information about the
+non-temporally dependent relationships between words. For Elman RNN cells, we
+again observed that because training was so unstable, embeddings did not
+appear to make much of a difference to accuracy, even if they result in
+much lower computational complexity.
+
+\section{Performance by Shortlist Dimension}
+\label{sec:perf_by_shortlist}
+
+\begin{figure}[h]
+\includegraphics{sr-perf-by-shortlist-lstm}
+\includegraphics{sr-perf-by-shortlist-gru}
+\includegraphics{sr-perf-by-shortlist-rnn}
+\centering
+\caption{Validation Set Performance by Shortlist Dimension on WikiText}
+\end{figure}
+
+We measured differences in performance with shortlist sizes 100, 1000, 5000, 1000
+at the decoder layer for each model architecture with 1 RNN cell, 200 hidden units and
+an input encoder embedding size of 500, trained to five epochs in batches of 200 sentences at a time.
+
+On WikiText, note that the original corpus contained 28,755 words in its
+dictionary and achieved accuracy scores of 0.921 for the LSTM, 0.918 for the GRU
+and 0.911 for Elman RNN.
+
+By contrast, shortlists for LSTM, GRU and Elman RNNs
+achieve accuracy scores between 0.910 and to 0.911,
+with larger shortlists marginally outperforming smaller
+shortlists. This indicates that a large proportion of
+the words being predicted on the non-shortlisted
+models are likely to be very frequent words, meaning
+that if we \emph{only} allow the network to predict
+frequent words by shortlisting then we can still get
+slightly worse but similar performance.
+
+\section{Tied Weights}
+\label{sec:perf_by_tiedweights}
+
+\begin{figure}[h]
+\includegraphics{sr-perf-by-model-tied-weights}
+\centering
+\caption{Validation Set Performance by Model on WikiText for Tied Weights}
+\end{figure}
+
+\section{Xavier Initialization}
+\label{sec:perf_by_xavier_init}
+
+\begin{figure}[h]
+\includegraphics{sr-perf-by-model-xavier-init}
+\centering
+\caption{Validation Set Performance by Model on WikiText for Xavier Initialization}
+\end{figure}
+
+\section{Kaiming Initialization}
+\label{sec:perf_by_kaiming_init}
+
+\begin{figure}[h]
+\includegraphics{sr-perf-by-model-kaiming-init}
+\centering
+\caption{Validation Set Performance by Model on WikiText for Xavier Initialization}
+\end{figure}
+
 \section{Analysis}
 \label{sec:analysis}
 
