@@ -81,15 +81,31 @@ results indicate that improvements can be made on the baseline set by the paper.
 \section{Data}
 \label{sec:data}
 
+\section{WikiText}
+\label{sec:wikitext}
+
 The first dataset we use is the WikiText dataset. This is a smaller dataset than
 Gigaword and WSJ'92, but allowed us to
 iterate faster and run more experiments.
 
-This dataset is based on articles from
-Wikipedia, containing 2,088,628 tokens
-in the training set, 245,569 tokens in
-the test set and 217,646 tokens in the
-validation set.
+This dataset is based on articles from Wikipedia, containing 1,756,924 tokens in
+the training set, 184,354 tokens in the validation set and 207,080 tokens
+in the test set. The combined dictionary for all three sets contains 28,755
+unique tokens.
+
+\begin{figure}[h]
+\includegraphics{sr-eda-wikitext-train-words}
+\includegraphics{sr-eda-wikitext-valid-words}
+\centering
+\caption{Training and Validation words in the WikiText dataset}
+\end{figure}
+
+Notice that because of the large amount of domain specific language that is used
+due to the fact that the sentences within were derived from encyclopedic
+articles, the dataset contains a large number of "unknown" tokens. An "unknown"
+token, represents any token with a frequency below the dataset threshold. This
+inherently makes accurate prediction difficult, since there is a higher
+likelihood that the following word might be infrequent in the corpus.
 
 Samples from the Dataset include:
 
@@ -99,15 +115,53 @@ Samples from the Dataset include:
 
 "It was larger than the Scientific , at 73 by 155 by 34 millimetres ..."
 
-This dataset contained quite a lot of
-technical or domain specific
-terminology due to the fact that the
-sentences within were derived from
-encyclopedic articles. This inherently
-makes accurate prediction difficult, since
-there is a higher likelihood that the
-following word might be infrequent in the
-corpus.
+Also notice the most frequent bigrams and trigrams of the dataset
+
+\begin{figure}[h]
+\includegraphics{sr-eda-wikitext-bigrams}
+\includegraphics{sr-eda-wikitext-trigrams}
+\centering
+\caption{Training set Bigrams and Trigrams in the WikiText dataset}
+\end{figure}
+
+The bigrams and trigrams in the dataset indicate that the dataset is, as expected,
+most describing phenomena or objects, with large frequencies for bigrams
+such as "in the" or "of the". The trigrams also reveal that domain specific
+descriptions-in-general are frequently occurring, ("unk unk unk").
+
+\section{Gigaword}
+\label{sec:gigaword}
+
+The second dataset we used was Gigaword. This dataset is based on ____,
+containing 110,382,986 tokens in the training set, 549,0454 tokens in the
+validation set and ____ tokens in the test set. The combined dictionary
+contains ____ unique tokens.
+
+Samples from the Dataset include:
+
+____
+
+\begin{figure}[h]
+\includegraphics{sr-eda-gigaword-train-words}
+\includegraphics{sr-eda-gigaword-valid-words}
+\centering
+\caption{Training and Validation words in the Gigaword dataset}
+\end{figure}
+
+In contrast to WikiText, there are a smaller number of domain-specific
+words and instead more words similar to those typically used in news
+articles, "said", "government", "stock", "tuesday", etc.
+
+\begin{figure}[h]
+\includegraphics{sr-eda-gigaword-bigrams}
+\includegraphics{sr-eda-gigaword-trigrams}
+\centering
+\caption{Bigrams and Trigrams words in the Gigaword training set}
+\end{figure}
+
+Also notice that bigrams and trigrams for this dataset reveal that a
+large number of articles are talking about the same thing, for instance
+"the united states", "the european union" and "george w bush".
 
 \section{Metrics}
 \label{sec:metrics}
