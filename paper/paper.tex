@@ -214,7 +214,24 @@ network has seen so far. In practice this means that the hidden layer encodes
 a context window \emph{up to} to a certain length, but no longer than
 that length.
 
-\subsection{LSTM} \label{sec:lstm}
+Unfortunately, Elman Network RNNs are not able to retain all the optimal
+contextual in practice. The reasons for this are given by \cite{Bengio94},
+but in summary the issue is that as we backpropagate through time the gradients
+from states "further back" in the history start to get vanishingly small, meaning
+that they can be easily disrupted by noise or newer information. This means
+that the hidden layer doesn't retain long-term information since it is easily
+disrupted by new information.
+
+\subsection{LSTM}
+\label{sec:lstm}
+In contrast to Elman RNNs, LSTM cells remember long-term information "by default" \cite{hochreiter97}.
+The hidden state isn't regenerated from the old hidden state and new information coming
+through the input, but rather is updated by deleting information and adding new
+information.
+
+The LSTM cell uses four "gates" to manage the state of the memory. Each of these
+gates comprises a set of weights and activations, descibed below \cite{colah2015}.
+
 The LSTM cell builds upon the basic RNN cell
 and adds some gates in order to control how information is stored or deleted.
 These gates are element-wise operations, meaning that every value of the hidden
@@ -223,11 +240,33 @@ step. All the gates are computed taking on account the last hidden state and the
 new input and they are applied onto the last hidden state.
 
 The first gate applied is a "forget" gate that regulates how much of the last
-hidden state is conserved in this time step. The second one is a "storing" gate
-that decides how much of the new input is encoded into the hidden state. The
-last gate is an "output" gate which decides which parts of the hidden state are
-taken on account to compute the output. This output will pass through a softmax
-layer to get the prediction for that time step.
+hidden state is conserved in this time step. Say that the hidden state contained some
+sort of representation as to a place or a point in time, but a new place or point in time arrived.
+The forget gate would, in theory, be optimized to notice the new place or point in time and delete
+the old place or point in time, otherwise leaving the contextual information unchanged. The output
+of the forget gate is activated by the sigmoid function which creates a mask of what information
+to retain from the hidden state ($f_t$).
+
+The second one is an "input" gate that decides how much of the new input is encoded into the hidden state.
+The activations for the gate by sigmoid essentially form a "mask" which the new input feature vector
+$C_t$ gets multiplied by (in order to select the relevant features) ($i_t$).
+
+In order to update the hidden state, we multiply the old hidden state ($h_{t - 1}$) by $f_t$
+(masking out the information we want to forget) and multiply the input state by $i_t$, masking in
+the information we want to keep, and add them together.
+
+The last gate is an "output" gate which decides which parts of the hidden state are
+taken on account to compute the output. The hidden state is first activated by sigmoid to determin
+the mask ($o_t$), then the hidden layer is activated by tanh to push the values between $[-1, 1]$, then
+finally multipled by the mask $o_t$ in order to determine the output of the network.
+
+The end result with such a variation is that the hidden state is "protected" from perturbation
+by virtue of being combined through a single linear layer and activation layer with the input
+state on every timestep. Instead, the hidden state is more "explicitly" modified when the
+optimized input and forget gates explicitly indicate that information should be added or removed
+to the state \cite{hochreiter97}.
+
+The output from the output gate passes through a softmax layer to get the prediction for that time step.
 
 Thanks to this procedure, hidden units can be ignored by the output gate and
 they can propagate forward in time without being multiplied by a weight matrix
@@ -235,17 +274,38 @@ and applied an activation function at every time step, helping overcome the
 gradient vanishing problem.
 
 The forgetting and storing gates help encoding only relevant information into
-the hidden state, improving long-time dependencies recall. \subsection{GRU}
-\label{sec:gru} GRU is a simplified LSTM cell in which the forget and store
-gates are combined into one "update" gate with complementary gated values (they
-sum up to 1 for every hidden unit), this means that the hidden state will
-"forget" some information only if it is going to learn some new information.
+the hidden state, improving long-time dependencies recall.
+
+Note that the hidden state accuracy benefits here come with a computational compleixty cost - every
+LSTM cell has three internal linear layers and five activations, which we pay for both in the forward
+pass and in backpropagation through time.
+
+
+\subsection{GRU}
+\label{sec:gru}
+
+In contrast with the LSTM model, Gated Recurrent Unit (GRU) \cite{cho2014} is a simplified
+LSTM cell in which the forget and store gates are combined into one "update" gate with complementary
+gated values (they sum up to 1 for every hidden unit). This means that the hidden state will
+"forget" some information only if it is going to learn some new information. The GRU also
+introduces a "reset gate". The "reset gate" is computed by taking the sigmoid of the sum of weighted
+inputs and hidden state $\sigma ([\bold W_r \bold x]_j + [\bold U_r \bold_{h - 1}])$.
+
+When the "reset gate" is close to zero, the entire hidden state is thrown away and resetted with
+the current input gate state.
+
+The net effect is that the GRU can learn short term dependencies between inputs
+over different timescales. The units that capture short term dependencies frequently
+activate the reset gate, whereas the units that learn long term dependencies have
+more active update gates \cite{cho2014}.
 
 \section{Encoding and Decoding}
 \label{sec:encdec}
 
-\subsection{Embeddings} \label{sec:embedddings} Traditionally, the Language
-Models were feeded each word as a One-Hot encoded vector as large as the
+\subsection{Embeddings}
+\label{sec:embedddings}
+
+Traditionally, the Language Models were feeded each word as a One-Hot encoded vector as large as the
 vocabulary is. Since vocabularies can be really large (20k to 800k for languages
 with many compounded words such as Finnish), this presents a computational
 problem, large matrices multiplication is expensive. Word Embeddings provide an
@@ -255,6 +315,18 @@ that words related to each other semanticaly, get similar encoded vectors after
 the transformation. Even some basic arithmetic is possible. For example, if you
 subtract the vector for "queen" from the vector for "king" you get the vector
 for "man".
+
+Word embeddings can be learned end-to-end with a single training
+process, as long as there is some task giving the words a representation in a domain,
+for instance, predicting the next word, which a language model is designed to do. This
+means that the word embeddings need not be trained separately but can be learned
+as part of the process of training the entire language model as a separate layer.
+
+Word embeddings also have the distinct advantage that they can reduce both training
+and inference complexity because fewer multiplications need to be done at
+the RNN, LSTM or GRU cell phase both at the inference and training time. The
+comptutation of the embedding layer can be heavily optimized because the relevant
+input will only have a non-zero value in a single vector component.
 
 \includegraphics[width=\textwidth]{01}
 
@@ -295,5 +367,16 @@ for "man".
   \emph{Kvantefænomener i Nanosystemer}.
   Niels Bohr Institute \& Nano-Science Center, Københavns Universitet
 
+\bibitem{Bengio94}
+  http://ai.dinfo.unifi.it/paolo//ps/tnn-94-gradient.pdf
+
+\bibitem{colah2015}
+  http://colah.github.io/posts/2015-08-Understanding-LSTMs/
+
+\bibitem{hochreiter97}
+  http://www.bioinf.jku.at/publications/older/2604.pdf
+
+\bibitem{cho2014}
+  https://arxiv.org/pdf/1406.1078v3.pdf
 \end{thebibliography}
 \end{document}
