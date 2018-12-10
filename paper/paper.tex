@@ -332,6 +332,23 @@ input will only have a non-zero value in a single vector component.
 \subsection{Shortlists}
 \label{sec:shortlists}
 
+Like embeddings, shortlists also provide a way to reduce the computational
+complexity, but this time at the output layer instead of the inference layer
+\cite{schwenk05}. In the shortlist we pick the $n$ most frequent words in the
+corpus and $n$ output units to those $n$ words in the corpus, predicting every
+other uncommon word as an unknown token. However, input encodings still
+allow for representations of those words deemed uncommon, either by
+embeddings or one-hot encoding.
+
+The overall theory behind shortlists is that any optimal model operates
+on a pareto principle, 20% of the words which are the most frequent will
+be predicted roughly 80% of the time. Since the computation of the output
+encodings of height $|V|$ is a fixed cost on every training and inference
+cycle, the user of the model is paying for the capacity to predict words which
+will seldomly be predicted. A good shortlist should be able to substantially
+reduce the computational complexity of the model whilst still retaining a
+relatively high degree of accuracy.
+
 \subsection{Tied Weights}
 \label{sec:tiedweights}
 
