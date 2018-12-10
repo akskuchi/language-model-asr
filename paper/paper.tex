@@ -355,8 +355,23 @@ relatively high degree of accuracy.
 \section{Regularization}
 \label{sec:regularization}
 
+The Milkolov paper flags that performance on the validation could not be
+improved by using "standard regularization procedures" (we assume that
+the paper must have been referring to L1 or L2 regualrization based on the
+techniques in existence at the time) \cite{Milkolov10}. We propose that a
+popular regularization technique known as "Dropout" may be of some assitance.
+
 \subsection{Dropout}
 \label{sec:dropout}
+
+Dropout \cite{hinton2012} is the probabilistic approximation of an ensemble
+of the power-set of weights in a Neural Network. In the words of Hinton, it
+reduces overfitting by reducing "complex co-adaptations on the training data",
+meaning that the network does not depend too much on the activation of
+certain sets of units in order to produce the majority of activations, instead
+ensuring that every unit is utilized roughly equally. In the case of language models,
+this should in principle prevent the network from just recalling the training data.
+
 
 \section{Initialization}
 \label{sec:initialization}
