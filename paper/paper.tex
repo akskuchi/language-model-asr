@@ -93,9 +93,9 @@ the training set, 184,354 tokens in the validation set and 207,080 tokens
 in the test set. The combined dictionary for all three sets contains 28,755
 unique tokens.
 
-\begin{figure}[h]
-\includegraphics{sr-eda-wikitext-train-words}
-\includegraphics{sr-eda-wikitext-valid-words}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-eda-wikitext-train-words}
+\includegraphics[width=0.7\columnwidth]{sr-eda-wikitext-valid-words}
 \centering
 \caption{Training and Validation words in the WikiText dataset}
 \end{figure}
@@ -117,9 +117,9 @@ Samples from the Dataset include:
 
 Also notice the most frequent bigrams and trigrams of the dataset
 
-\begin{figure}[h]
-\includegraphics{sr-eda-wikitext-bigrams}
-\includegraphics{sr-eda-wikitext-trigrams}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-eda-wikitext-bigrams}
+\includegraphics[width=0.7\columnwidth]{sr-eda-wikitext-trigrams}
 \centering
 \caption{Training set Bigrams and Trigrams in the WikiText dataset}
 \end{figure}
@@ -141,9 +141,9 @@ Samples from the Dataset include:
 
 XXX
 
-\begin{figure}[h]
-\includegraphics{sr-eda-gigaword-train-words}
-\includegraphics{sr-eda-gigaword-valid-words}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-eda-gigaword-train-words}
+\includegraphics[width=0.7\columnwidth]{sr-eda-gigaword-valid-words}
 \centering
 \caption{Training and Validation words in the Gigaword dataset}
 \end{figure}
@@ -152,9 +152,9 @@ In contrast to WikiText, there are a smaller number of domain-specific
 words and instead more words similar to those typically used in news
 articles, "said", "government", "stock", "tuesday", etc.
 
-\begin{figure}[h]
-\includegraphics{sr-eda-gigaword-bigrams}
-\includegraphics{sr-eda-gigaword-trigrams}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-eda-gigaword-bigrams}
+\includegraphics[width=0.7\columnwidth]{sr-eda-gigaword-trigrams}
 \centering
 \caption{Bigrams and Trigrams words in the Gigaword training set}
 \end{figure}
@@ -381,7 +381,7 @@ the RNN, LSTM or GRU cell phase both at the inference and training time. The
 comptutation of the embedding layer can be heavily optimized because the relevant
 input will only have a non-zero value in a single vector component.
 
-\includegraphics[width=\textwidth]{01}
+\includegraphics[width=0.7\columnwidth][width=\textwidth]{01}
 
 \subsection{Shortlists}
 \label{sec:shortlists}
@@ -443,8 +443,8 @@ WikiText dataset and scale a few of those results up to Gigaword.
 \section{Performance by Model Architecture}
 \label{sec:perf_by_model_arch}
 
-\begin{figure}[h]
-\includegraphics{sr-perf-by-model-architecture}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-model-architecture}
 \centering
 \caption{Validation Set Performance by Model Architecture on WikiText}
 \end{figure}
@@ -459,10 +459,10 @@ higher than the other two models.
 \section{Performance by number of hidden layers}
 \label{sec:perf_by_n_layers}
 
-\begin{figure}[h]
-\includegraphics{sr-perf-by-hidden-lstm}
-\includegraphics{sr-perf-by-hidden-gru}
-\includegraphics{sr-perf-by-hidden-rnn}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-hidden-lstm}
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-hidden-gru}
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-hidden-rnn}
 \centering
 \caption{Validation Set Performance by number of Hidden Layers on WikiText}
 \end{figure}
@@ -481,10 +481,10 @@ increasing the number of layers gave inconclusive results.
 \section{Performance by number of hidden units}
 \label{sec:perf_by_n_hidden}
 
-\begin{figure}[h]
-\includegraphics{sr-perf-by-hidden-units-lstm}
-\includegraphics{sr-perf-by-hidden-units-gru}
-\includegraphics{sr-perf-by-hidden-units-rnn}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-hidden-units-lstm}
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-hidden-units-gru}
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-hidden-units-rnn}
 \centering
 \caption{Validation Set Performance by number of Hidden Units on WikiText}
 \end{figure}
@@ -502,10 +502,10 @@ overfitting and improve accuracy on the validation data.
 \section{Performance by Dropout}
 \label{sec:perf_by_dropout}
 
-\begin{figure}[h]
-\includegraphics{sr-perf-by-dropout-lstm}
-\includegraphics{sr-perf-by-dropout-gru}
-\includegraphics{sr-perf-by-dropout-rnn}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-dropout-lstm}
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-dropout-gru}
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-dropout-rnn}
 \centering
 \caption{Validation Set Performance by Dropout Probability on WikiText}
 \end{figure}
@@ -526,10 +526,10 @@ difference, if any, dropout had on the metrics.
 \section{Performance by Embedding Dimensions}
 \label{sec:perf_by_embedding}
 
-\begin{figure}[h]
-\includegraphics{sr-perf-by-embedding-lstm}
-\includegraphics{sr-perf-by-embedding-gru}
-\includegraphics{sr-perf-by-embedding-rnn}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-embedding-lstm}
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-embedding-gru}
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-embedding-rnn}
 \centering
 \caption{Validation Set Performance by Embedding Dimension on WikiText}
 \end{figure}
@@ -550,10 +550,10 @@ much lower computational complexity.
 \section{Performance by Shortlist Dimension}
 \label{sec:perf_by_shortlist}
 
-\begin{figure}[h]
-\includegraphics{sr-perf-by-shortlist-lstm}
-\includegraphics{sr-perf-by-shortlist-gru}
-\includegraphics{sr-perf-by-shortlist-rnn}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-shortlist-lstm}
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-shortlist-gru}
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-shortlist-rnn}
 \centering
 \caption{Validation Set Performance by Shortlist Dimension on WikiText}
 \end{figure}
@@ -579,8 +579,8 @@ slightly worse but similar performance.
 \section{Tied Weights}
 \label{sec:perf_by_tiedweights}
 
-\begin{figure}[h]
-\includegraphics{sr-perf-by-model-tied-weights}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-model-tied-weights}
 \centering
 \caption{Validation Set Performance by Model on WikiText for Tied Weights}
 \end{figure}
@@ -588,8 +588,8 @@ slightly worse but similar performance.
 \section{Xavier Initialization}
 \label{sec:perf_by_xavier_init}
 
-\begin{figure}[h]
-\includegraphics{sr-perf-by-model-xavier-init}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-model-xavier-init}
 \centering
 \caption{Validation Set Performance by Model on WikiText for Xavier Initialization}
 \end{figure}
@@ -597,8 +597,8 @@ slightly worse but similar performance.
 \section{Kaiming Initialization}
 \label{sec:perf_by_kaiming_init}
 
-\begin{figure}[h]
-\includegraphics{sr-perf-by-model-kaiming-init}
+\begin{figure}[ht]
+\includegraphics[width=0.7\columnwidth]{sr-perf-by-model-kaiming-init}
 \centering
 \caption{Validation Set Performance by Model on WikiText for Xavier Initialization}
 \end{figure}
