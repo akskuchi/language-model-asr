@@ -440,7 +440,7 @@ We ran two sets of experiments on each dataset. Because of the difference in siz
 between the Gigaword and WikiText datasets we were able to run more tests on the
 WikiText dataset and scale a few of those results up to Gigaword.
 
-\section{Performance by Model Architecture}
+\subsection{Performance by Model Architecture}
 \label{sec:perf_by_model_arch}
 
 \begin{figure}[ht]
@@ -456,7 +456,7 @@ It has the lowest overall perplexity, highest METEOR score after five iterations
 and highest overall naive accuracy, scoring roughly one half a percentage point
 higher than the other two models.
 
-\section{Performance by number of hidden layers}
+\subsection{Performance by number of hidden layers}
 \label{sec:perf_by_n_layers}
 
 \begin{figure}[ht]
@@ -478,7 +478,7 @@ encode more information from the training set in its layers recurrent layers.
 We notice that in the Elman Network RNN training was generally unstable and
 increasing the number of layers gave inconclusive results.
 
-\section{Performance by number of hidden units}
+\subsection{Performance by number of hidden units}
 \label{sec:perf_by_n_hidden}
 
 \begin{figure}[ht]
@@ -499,7 +499,7 @@ but not as much as increasing the number of layers does. In fact, having a fewer
 number of hidden units may act as a regularizer which would help to prevent
 overfitting and improve accuracy on the validation data.
 
-\section{Performance by Dropout}
+\subsection{Performance by Dropout}
 \label{sec:perf_by_dropout}
 
 \begin{figure}[ht]
@@ -523,7 +523,7 @@ not already starting to overfit by five epochs. For RNN cells, we observed
 that again, training was quite unstable that it was difficult to observe what
 difference, if any, dropout had on the metrics.
 
-\section{Performance by Embedding Dimensions}
+\subsection{Performance by Embedding Dimensions}
 \label{sec:perf_by_embedding}
 
 \begin{figure}[ht]
@@ -547,7 +547,7 @@ again observed that because training was so unstable, embeddings did not
 appear to make much of a difference to accuracy, even if they result in
 much lower computational complexity.
 
-\section{Performance by Shortlist Dimension}
+\subsection{Performance by Shortlist Dimension}
 \label{sec:perf_by_shortlist}
 
 \begin{figure}[ht]
@@ -576,7 +576,7 @@ that if we \emph{only} allow the network to predict
 frequent words by shortlisting then we can still get
 slightly worse but similar performance.
 
-\section{Tied Weights}
+\subsection{Tied Weights}
 \label{sec:perf_by_tiedweights}
 
 \begin{figure}[ht]
@@ -585,7 +585,7 @@ slightly worse but similar performance.
 \caption{Validation Set Performance by Model on WikiText for Tied Weights}
 \end{figure}
 
-\section{Xavier Initialization}
+\subsection{Xavier Initialization}
 \label{sec:perf_by_xavier_init}
 
 \begin{figure}[ht]
@@ -594,7 +594,7 @@ slightly worse but similar performance.
 \caption{Validation Set Performance by Model on WikiText for Xavier Initialization}
 \end{figure}
 
-\section{Kaiming Initialization}
+\subsection{Kaiming Initialization}
 \label{sec:perf_by_kaiming_init}
 
 \begin{figure}[ht]
