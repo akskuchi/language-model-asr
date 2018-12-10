@@ -157,16 +157,23 @@ co-occurrences.
 
 \subsection{METEOR}
 \label{sec:meteor}
-Another metric trying to improve BLEU is METEOR. The novel thing about this metric is the use of Recall as well as Precision to compute the score. It computes the harmonic mean of Recall and Precision over uni-grams, the weight for recall being higher than Precision, meaning that false negatives (having a low probability for the true word trying to predict) will have a big impact on the metric (the score will be lower as the amount of false negatives increase).
+Another metric trying to improve BLEU is
+METEOR. The novel thing about this metric is the use of Recall as well as
+Precision to compute the score. It computes the harmonic mean of Recall and
+Precision over uni-grams, the weight for recall being higher than Precision,
+meaning that false negatives (having a low probability for the true word trying
+to predict) will have a big impact on the metric (the score will be lower as the
+amount of false negatives increase).
 
-More formally, Precision over an uni-gram is computed as:
-$$P={\frac  {m}{w_{{t}}}}$$
-Where m is the number of uni-grams in the candidate translation that are also found in the reference translation, and $w_t$ is the number of uni-grams in the candidate translation.
+More formally, Precision over an uni-gram is computed as: $$P={\frac
+{m}{w_{{t}}}}$$ Where m is the number of uni-grams in the candidate translation
+that are also found in the reference translation, and $w_t$ is the number of
+uni-grams in the candidate translation.
 
-Recall is computed as:
-$$R={\frac  {m}{w_{{r}}}}$$
-Where m is as above, and $w_{{r}}$ is the number of uni-grams in the reference translation. Precision and recall are combined using the harmonic mean in the following fashion, with recall weighted 9 times more than precision:
-$$F_{{mean}}={\frac  {10PR}{R+9P}}$$
+Recall is computed as: $$R={\frac {m}{w_{{r}}}}$$ Where m is as above, and
+$w_{{r}}$ is the number of uni-grams in the reference translation. Precision and
+recall are combined using the harmonic mean in the following fashion, with
+recall weighted 9 times more than precision: $$F_{{mean}}={\frac {10PR}{R+9P}}$$
 
 
 \subsection{Naive Accuracy}
@@ -207,29 +214,47 @@ network has seen so far. In practice this means that the hidden layer encodes
 a context window \emph{up to} to a certain length, but no longer than
 that length.
 
-\subsection{LSTM}
-\label{sec:lstm}
-The LSTM cell builds upon the basic RNN cell and adds some gates in order to control how information is stored or deleted. These gates are element-wise operations, meaning that every value of the hidden state have a dedicated gate deciding the fate of that value in the next time step. All the gates are computed taking on account the last hidden state and the new input and they are applied onto the last hidden state.
+\subsection{LSTM} \label{sec:lstm}
+The LSTM cell builds upon the basic RNN cell
+and adds some gates in order to control how information is stored or deleted.
+These gates are element-wise operations, meaning that every value of the hidden
+state have a dedicated gate deciding the fate of that value in the next time
+step. All the gates are computed taking on account the last hidden state and the
+new input and they are applied onto the last hidden state.
 
-The first gate applied is a "forget" gate that regulates how much of the last hidden state is conserved in this time step. 
-The second one is a "storing" gate that decides how much of the new input is encoded into the hidden state.
-The last gate is an "output" gate which decides which parts of the hidden state are taken on account to compute the output. This output will pass through a softmax layer to get the prediction for that time step.
+The first gate applied is a "forget" gate that regulates how much of the last
+hidden state is conserved in this time step. The second one is a "storing" gate
+that decides how much of the new input is encoded into the hidden state. The
+last gate is an "output" gate which decides which parts of the hidden state are
+taken on account to compute the output. This output will pass through a softmax
+layer to get the prediction for that time step.
 
-Thanks to this procedure, hidden units can be ignored by the output gate and they can propagate forward in time without being multiplied by a weight matrix and applied an activation function at every time step, helping overcome the gradient vanishing problem.
+Thanks to this procedure, hidden units can be ignored by the output gate and
+they can propagate forward in time without being multiplied by a weight matrix
+and applied an activation function at every time step, helping overcome the
+gradient vanishing problem.
 
-The forgetting and storing gates help encoding only relevant information into the hidden state, improving long-time dependencies recall.
-\subsection{GRU}
-\label{sec:gru}
-GRU is a simplified LSTM cell in which the forget and store gates are combined into one "update" gate with complementary gated values (they sum up to 1 for every hidden unit), this means that the hidden state will "forget" some information only if it is going to learn some new information.
+The forgetting and storing gates help encoding only relevant information into
+the hidden state, improving long-time dependencies recall. \subsection{GRU}
+\label{sec:gru} GRU is a simplified LSTM cell in which the forget and store
+gates are combined into one "update" gate with complementary gated values (they
+sum up to 1 for every hidden unit), this means that the hidden state will
+"forget" some information only if it is going to learn some new information.
 
 \section{Encoding and Decoding}
 \label{sec:encdec}
 
-\subsection{Embeddings}
-\label{sec:embedddings}
-Traditionally, the Language Models were feeded each word as a One-Hot encoded vector as large as the vocabulary is. Since vocabularies can be really large (20k to 800k for languages with many compounded words such as Finnish), this presents a computational problem, large matrices multiplication is expensive.
-Word Embeddings provide an alternative procedure in which the words to be feeded to the network are encoded in an $n$ dimensional space. The embedding layer can learn a word encoding such that words related to each other semanticaly, get similar encoded vectors after the transformation.
-Even some basic arithmetic is possible. For example, if you subtract the vector for "queen" from the vector for "king" you get the vector for "man".
+\subsection{Embeddings} \label{sec:embedddings} Traditionally, the Language
+Models were feeded each word as a One-Hot encoded vector as large as the
+vocabulary is. Since vocabularies can be really large (20k to 800k for languages
+with many compounded words such as Finnish), this presents a computational
+problem, large matrices multiplication is expensive. Word Embeddings provide an
+alternative procedure in which the words to be feeded to the network are encoded
+in an $n$ dimensional space. The embedding layer can learn a word encoding such
+that words related to each other semanticaly, get similar encoded vectors after
+the transformation. Even some basic arithmetic is possible. For example, if you
+subtract the vector for "queen" from the vector for "king" you get the vector
+for "man".
 
 \includegraphics[width=\textwidth]{01}
 
