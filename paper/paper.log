@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.12.10)  10 DEC 2018 14:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.12.10)  11 DEC 2018 14:10
 entering extended mode
 **./paper.tex
 (paper.tex
@@ -632,70 +632,244 @@ G,.JBIG2,.JB2,.eps]
 ) ABD: EveryShipout initializing macros [1
 
 {C:/Users/Frostis-PC/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-
-LaTeX Warning: Citation `Milkolov10' on page 2 undefined on input line 76.
-
-! Misplaced alignment tab character &.
-l.98 ...e Boy creator Gunpei Yokoi 's Nintendo R &
-                                                   D1 developed …"
-I can't figure out why you would want to use a tab mark
-here. If you just want an ampersand, the remedy is
-simple: Just type `I\&' now. But if some right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvageable.
-
-[2] [3] [4]
-<./images/01.png, id=58, 803.0pt x 281.05pt>
+<./images/sr-eda-wikitext-train-words.png, id=39, 1499.6025pt x 714.67pt>
+File: ./images/sr-eda-wikitext-train-words.png Graphic file (type png)
+<use ./images/sr-eda-wikitext-train-words.png>
+Package pdftex.def Info: ./images/sr-eda-wikitext-train-words.png  used on inpu
+t line 97.
+(pdftex.def)             Requested size: 241.49895pt x 115.09106pt.
+<./images/sr-eda-wikitext-valid-words.png, id=41, 1499.6025pt x 729.72626pt>
+File: ./images/sr-eda-wikitext-valid-words.png Graphic file (type png)
+<use ./images/sr-eda-wikitext-valid-words.png>
+Package pdftex.def Info: ./images/sr-eda-wikitext-valid-words.png  used on inpu
+t line 98.
+(pdftex.def)             Requested size: 241.49895pt x 117.51575pt.
+ [2 <./images/sr-eda-wikitext-train-words.png> <./images/sr-eda-wikitext-valid-
+words.png>]
+<./images/sr-eda-wikitext-bigrams.png, id=47, 406.51875pt x 322.20375pt>
+File: ./images/sr-eda-wikitext-bigrams.png Graphic file (type png)
+<use ./images/sr-eda-wikitext-bigrams.png>
+Package pdftex.def Info: ./images/sr-eda-wikitext-bigrams.png  used on input li
+ne 121.
+(pdftex.def)             Requested size: 241.49895pt x 191.41124pt.
+<./images/sr-eda-wikitext-trigrams.png, id=48, 399.4925pt x 373.395pt>
+File: ./images/sr-eda-wikitext-trigrams.png Graphic file (type png)
+<use ./images/sr-eda-wikitext-trigrams.png>
+Package pdftex.def Info: ./images/sr-eda-wikitext-trigrams.png  used on input l
+ine 122.
+(pdftex.def)             Requested size: 241.49895pt x 225.7252pt.
+ [3 <./images/sr-eda-wikitext-bigrams.png> <./images/sr-eda-wikitext-trigrams.p
+ng>]
+<./images/sr-eda-gigaword-train-words.png, id=54, 1499.6025pt x 740.7675pt>
+File: ./images/sr-eda-gigaword-train-words.png Graphic file (type png)
+<use ./images/sr-eda-gigaword-train-words.png>
+Package pdftex.def Info: ./images/sr-eda-gigaword-train-words.png  used on inpu
+t line 145.
+(pdftex.def)             Requested size: 241.49895pt x 119.29384pt.
+<./images/sr-eda-gigaword-valid-words.png, id=55, 1499.6025pt x 740.7675pt>
+File: ./images/sr-eda-gigaword-valid-words.png Graphic file (type png)
+<use ./images/sr-eda-gigaword-valid-words.png>
+Package pdftex.def Info: ./images/sr-eda-gigaword-valid-words.png  used on inpu
+t line 146.
+(pdftex.def)             Requested size: 241.49895pt x 119.29384pt.
+<./images/sr-eda-gigaword-bigrams.png, id=56, 406.51875pt x 352.31625pt>
+File: ./images/sr-eda-gigaword-bigrams.png Graphic file (type png)
+<use ./images/sr-eda-gigaword-bigrams.png>
+Package pdftex.def Info: ./images/sr-eda-gigaword-bigrams.png  used on input li
+ne 156.
+(pdftex.def)             Requested size: 241.49895pt x 209.30014pt.
+<./images/sr-eda-gigaword-trigrams.png, id=57, 399.4925pt x 400.49625pt>
+File: ./images/sr-eda-gigaword-trigrams.png Graphic file (type png)
+<use ./images/sr-eda-gigaword-trigrams.png>
+Package pdftex.def Info: ./images/sr-eda-gigaword-trigrams.png  used on input l
+ine 157.
+(pdftex.def)             Requested size: 241.49895pt x 242.10847pt.
+ [4 <./images/sr-eda-gigaword-train-words.png> <./images/sr-eda-gigaword-valid-
+words.png>]
+[5 <./images/sr-eda-gigaword-bigrams.png> <./images/sr-eda-gigaword-trigrams.pn
+g>] [6] [7] [8]
+<./images/01.png, id=87, 803.0pt x 281.05pt>
 File: ./images/01.png Graphic file (type png)
 <use ./images/01.png>
-Package pdftex.def Info: ./images/01.png  used on input line 234.
+Package pdftex.def Info: ./images/01.png  used on input line 386.
 (pdftex.def)             Requested size: 345.0pt x 120.7505pt.
+ [9 <./images/01.png (PNG copy)>] [10]
+<./images/sr-perf-by-model-architecture.png, id=94, 993.7125pt x 279.0425pt>
+File: ./images/sr-perf-by-model-architecture.png Graphic file (type png)
+<use ./images/sr-perf-by-model-architecture.png>
+Package pdftex.def Info: ./images/sr-perf-by-model-architecture.png  used on in
+put line 463.
+(pdftex.def)             Requested size: 241.49895pt x 67.8146pt.
+<./images/sr-perf-by-hidden-lstm.png, id=95, 999.735pt x 279.0425pt>
+File: ./images/sr-perf-by-hidden-lstm.png Graphic file (type png)
+<use ./images/sr-perf-by-hidden-lstm.png>
+Package pdftex.def Info: ./images/sr-perf-by-hidden-lstm.png  used on input lin
+e 479.
+(pdftex.def)             Requested size: 241.49895pt x 67.40585pt.
+<./images/sr-perf-by-hidden-gru.png, id=96, 993.7125pt x 279.0425pt>
+File: ./images/sr-perf-by-hidden-gru.png Graphic file (type png)
+<use ./images/sr-perf-by-hidden-gru.png>
+Package pdftex.def Info: ./images/sr-perf-by-hidden-gru.png  used on input line
+ 480.
+(pdftex.def)             Requested size: 241.49895pt x 67.8146pt.
+<./images/sr-perf-by-hidden-rnn.png, id=97, 993.7125pt x 279.0425pt>
+File: ./images/sr-perf-by-hidden-rnn.png Graphic file (type png)
+<use ./images/sr-perf-by-hidden-rnn.png>
+Package pdftex.def Info: ./images/sr-perf-by-hidden-rnn.png  used on input line
+ 481.
+(pdftex.def)             Requested size: 241.49895pt x 67.8146pt.
+ [11 <./images/sr-perf-by-model-architecture.png>]
+<./images/sr-perf-by-hidden-units-lstm.png, id=102, 993.7125pt x 279.0425pt>
+File: ./images/sr-perf-by-hidden-units-lstm.png Graphic file (type png)
+<use ./images/sr-perf-by-hidden-units-lstm.png>
+Package pdftex.def Info: ./images/sr-perf-by-hidden-units-lstm.png  used on inp
+ut line 501.
+(pdftex.def)             Requested size: 241.49895pt x 67.8146pt.
+<./images/sr-perf-by-hidden-units-gru.png, id=103, 986.68625pt x 279.0425pt>
+File: ./images/sr-perf-by-hidden-units-gru.png Graphic file (type png)
+<use ./images/sr-perf-by-hidden-units-gru.png>
+Package pdftex.def Info: ./images/sr-perf-by-hidden-units-gru.png  used on inpu
+t line 502.
+(pdftex.def)             Requested size: 241.49895pt x 68.29575pt.
+<./images/sr-perf-by-hidden-units-rnn.png, id=104, 993.7125pt x 279.0425pt>
+File: ./images/sr-perf-by-hidden-units-rnn.png Graphic file (type png)
+<use ./images/sr-perf-by-hidden-units-rnn.png>
+Package pdftex.def Info: ./images/sr-perf-by-hidden-units-rnn.png  used on inpu
+t line 503.
+(pdftex.def)             Requested size: 241.49895pt x 67.8146pt.
+<./images/sr-perf-by-dropout-lstm.png, id=105, 993.7125pt x 279.0425pt>
+File: ./images/sr-perf-by-dropout-lstm.png Graphic file (type png)
+<use ./images/sr-perf-by-dropout-lstm.png>
+Package pdftex.def Info: ./images/sr-perf-by-dropout-lstm.png  used on input li
+ne 522.
+(pdftex.def)             Requested size: 241.49895pt x 67.8146pt.
+<./images/sr-perf-by-dropout-gru.png, id=106, 986.68625pt x 279.0425pt>
+File: ./images/sr-perf-by-dropout-gru.png Graphic file (type png)
+<use ./images/sr-perf-by-dropout-gru.png>
+Package pdftex.def Info: ./images/sr-perf-by-dropout-gru.png  used on input lin
+e 523.
+(pdftex.def)             Requested size: 241.49895pt x 68.29575pt.
+<./images/sr-perf-by-dropout-rnn.png, id=107, 986.68625pt x 279.0425pt>
+File: ./images/sr-perf-by-dropout-rnn.png Graphic file (type png)
+<use ./images/sr-perf-by-dropout-rnn.png>
+Package pdftex.def Info: ./images/sr-perf-by-dropout-rnn.png  used on input lin
+e 524.
+(pdftex.def)             Requested size: 241.49895pt x 68.29575pt.
+ [12 <./images/sr-perf-by-hidden-lstm.png> <./images/sr-perf-by-hidden-gru.png>
+ <./images/sr-perf-by-hidden-rnn.png>]
+<./images/sr-perf-by-embedding-lstm.png, id=114, 993.7125pt x 279.0425pt>
+File: ./images/sr-perf-by-embedding-lstm.png Graphic file (type png)
+<use ./images/sr-perf-by-embedding-lstm.png>
+Package pdftex.def Info: ./images/sr-perf-by-embedding-lstm.png  used on input 
+line 546.
+(pdftex.def)             Requested size: 241.49895pt x 67.8146pt.
+<./images/sr-perf-by-embedding-gru.png, id=115, 993.7125pt x 279.0425pt>
+File: ./images/sr-perf-by-embedding-gru.png Graphic file (type png)
+<use ./images/sr-perf-by-embedding-gru.png>
+Package pdftex.def Info: ./images/sr-perf-by-embedding-gru.png  used on input l
+ine 547.
+(pdftex.def)             Requested size: 241.49895pt x 67.8146pt.
+<./images/sr-perf-by-embedding-rnn.png, id=116, 986.68625pt x 279.0425pt>
+File: ./images/sr-perf-by-embedding-rnn.png Graphic file (type png)
+<use ./images/sr-perf-by-embedding-rnn.png>
+Package pdftex.def Info: ./images/sr-perf-by-embedding-rnn.png  used on input l
+ine 548.
+(pdftex.def)             Requested size: 241.49895pt x 68.29575pt.
+ [13 <./images/sr-perf-by-hidden-units-lstm.png> <./images/sr-perf-by-hidden-un
+its-gru.png> <./images/sr-perf-by-hidden-units-rnn.png> <./images/sr-perf-by-dr
+opout-lstm.png> <./images/sr-perf-by-dropout-gru.png> <./images/sr-perf-by-drop
+out-rnn.png>]
+<./images/sr-perf-by-shortlist-lstm.png, id=127, 993.7125pt x 279.0425pt>
+File: ./images/sr-perf-by-shortlist-lstm.png Graphic file (type png)
+<use ./images/sr-perf-by-shortlist-lstm.png>
+Package pdftex.def Info: ./images/sr-perf-by-shortlist-lstm.png  used on input 
+line 570.
+(pdftex.def)             Requested size: 241.49895pt x 67.8146pt.
+<./images/sr-perf-by-shortlist-gru.png, id=128, 993.7125pt x 279.0425pt>
+File: ./images/sr-perf-by-shortlist-gru.png Graphic file (type png)
+<use ./images/sr-perf-by-shortlist-gru.png>
+Package pdftex.def Info: ./images/sr-perf-by-shortlist-gru.png  used on input l
+ine 571.
+(pdftex.def)             Requested size: 241.49895pt x 67.8146pt.
+<./images/sr-perf-by-shortlist-rnn.png, id=129, 986.68625pt x 279.0425pt>
+File: ./images/sr-perf-by-shortlist-rnn.png Graphic file (type png)
+<use ./images/sr-perf-by-shortlist-rnn.png>
+Package pdftex.def Info: ./images/sr-perf-by-shortlist-rnn.png  used on input l
+ine 572.
+(pdftex.def)             Requested size: 241.49895pt x 68.29575pt.
 
-Overfull \hbox (15.0pt too wide) in paragraph at lines 234--235
-[][] 
- []
-
-[5 <./images/01.png (PNG copy)>] [6] (paper.aux)
-
-LaTeX Warning: There were undefined references.
-
+[14 <./images/sr-perf-by-embedding-lstm.png> <./images/sr-perf-by-embedding-gru
+.png> <./images/sr-perf-by-embedding-rnn.png>]
+<./images/lstm-tw.png, id=136, 986.9372pt x 301.125pt>
+File: ./images/lstm-tw.png Graphic file (type png)
+<use ./images/lstm-tw.png>
+Package pdftex.def Info: ./images/lstm-tw.png  used on input line 603.
+(pdftex.def)             Requested size: 344.99646pt x 85.35744pt.
+<./images/gru-tw.png, id=137, 980.91469pt x 302.63063pt>
+File: ./images/gru-tw.png Graphic file (type png)
+<use ./images/gru-tw.png>
+Package pdftex.def Info: ./images/gru-tw.png  used on input line 607.
+(pdftex.def)             Requested size: 345.00165pt x 85.35939pt.
+<./images/tanh-tw.png, id=138, 986.9372pt x 300.3722pt>
+File: ./images/tanh-tw.png Graphic file (type png)
+<use ./images/tanh-tw.png>
+Package pdftex.def Info: ./images/tanh-tw.png  used on input line 611.
+(pdftex.def)             Requested size: 344.99646pt x 85.35945pt.
+ [15 <./images/sr-perf-by-shortlist-lstm.png> <./images/sr-perf-by-shortlist-gr
+u.png> <./images/sr-perf-by-shortlist-rnn.png> <./images/lstm-tw.png> <./images
+/gru-tw.png>]
+<./images/lstm-xi.png, id=147, 986.9372pt x 300.3722pt>
+File: ./images/lstm-xi.png Graphic file (type png)
+<use ./images/lstm-xi.png>
+Package pdftex.def Info: ./images/lstm-xi.png  used on input line 626.
+(pdftex.def)             Requested size: 344.99646pt x 85.35945pt.
+<./images/gru-xi.png, id=148, 980.91469pt x 304.13625pt>
+File: ./images/gru-xi.png Graphic file (type png)
+<use ./images/gru-xi.png>
+Package pdftex.def Info: ./images/gru-xi.png  used on input line 630.
+(pdftex.def)             Requested size: 345.00165pt x 85.35712pt.
+<./images/tanh-xi.png, id=149, 986.9372pt x 301.125pt>
+File: ./images/tanh-xi.png Graphic file (type png)
+<use ./images/tanh-xi.png>
+Package pdftex.def Info: ./images/tanh-xi.png  used on input line 634.
+(pdftex.def)             Requested size: 344.99646pt x 85.35744pt.
+ [16 <./images/tanh-tw.png> <./images/lstm-xi.png> <./images/gru-xi.png>] [17 <
+./images/tanh-xi.png>] (paper.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 13145 strings out of 492970
- 266160 string characters out of 3124373
- 315091 words of memory out of 3000000
- 16741 multiletter control sequences out of 15000+200000
- 9976 words of font info for 36 fonts, out of 3000000 for 9000
+ 13311 strings out of 492970
+ 271831 string characters out of 3124373
+ 314242 words of memory out of 3000000
+ 16878 multiletter control sequences out of 15000+200000
+ 9668 words of font info for 35 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,6n,80p,480b,223s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 62i,6n,80p,670b,287s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/ams
-fonts/cm/cmbx10.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/font
-s/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Frostis-PC/AppData/Local/Progra
-ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/Frostis-PC/App
-Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Us
-ers/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-extra/cmex7.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/M
-iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/Frostis-PC/AppData
-/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/F
-rostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr1
-0.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmr12.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Frostis-PC/AppData/Local/Prog
-rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Frostis-PC/Ap
-pData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Use
-rs/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmr9.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
-lic/amsfonts/cm/cmsy10.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Frostis-PC/AppData/Local/
-Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on paper.pdf (6 pages, 270896 bytes).
+fonts/cm/cmbx12.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/Frostis-PC/AppData/Local/Program
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Frostis-PC/App
+Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex7.pfb><C
+:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmmi10.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmmi5.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Frostis-PC/AppData/
+Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Fr
+ostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12
+.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmr17.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Frostis-PC/AppData/Local/Progra
+ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Frostis-PC/AppD
+ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users
+/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+sy10.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
+lic/amsfonts/cm/cmsy7.pfb><C:/Users/Frostis-PC/AppData/Local/Programs/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on paper.pdf (17 pages, 1952010 bytes).
 PDF statistics:
- 117 PDF objects out of 1000 (max. 8388607)
+ 210 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 114 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 264 words of extra memory for PDF output out of 10000 (max. 10000000)
 

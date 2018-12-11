@@ -5,45 +5,96 @@
 \citation{Milkolov10}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Data}{2}}
 \newlabel{sec:data}{{2}{2}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Metrics}{2}}
-\newlabel{sec:metrics}{{3}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Perplexity}{2}}
-\newlabel{sec:perplexity}{{3.1}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}ROUGE}{3}}
-\newlabel{sec:rouge}{{3.2}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}METEOR}{3}}
-\newlabel{sec:meteor}{{3.3}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Naive Accuracy}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Models}{4}}
-\newlabel{sec:models}{{4}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}RNN}{4}}
-\newlabel{sec:lstm}{{4.1}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}LSTM}{4}}
-\newlabel{sec:lstm}{{4.2}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}WikiText}{2}}
+\newlabel{sec:wikitext}{{3}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Training and Validation words in the WikiText dataset}}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Training set Bigrams and Trigrams in the WikiText dataset}}{3}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Gigaword}{4}}
+\newlabel{sec:gigaword}{{4}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Training and Validation words in the Gigaword dataset}}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Metrics}{4}}
+\newlabel{sec:metrics}{{5}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Bigrams and Trigrams words in the Gigaword training set}}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Perplexity}{5}}
+\newlabel{sec:perplexity}{{5.1}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}ROUGE}{6}}
+\newlabel{sec:rouge}{{5.2}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}METEOR}{6}}
+\newlabel{sec:meteor}{{5.3}{6}}
+\citation{Bengio94}
+\citation{hochreiter97}
+\citation{colah2015}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Naive Accuracy}{7}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Models}{7}}
+\newlabel{sec:models}{{6}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}RNN}{7}}
+\newlabel{sec:lstm}{{6.1}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}LSTM}{7}}
+\newlabel{sec:lstm}{{6.2}{7}}
+\citation{hochreiter97}
+\citation{cho2014}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}GRU}{8}}
+\newlabel{sec:gru}{{6.3}{8}}
+\citation{cho2014}
+\citation{schwenk05}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Encoding and Decoding}{9}}
+\newlabel{sec:encdec}{{7}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Embeddings}{9}}
+\newlabel{sec:embedddings}{{7.1}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Three embedding vector spaces showing how euclidean distance is following the semantic relations for: a) male and female. b) verb tenses. c) countries and capitals }}{9}}
+\citation{Milkolov10}
+\citation{hinton2012}
+\citation{press16}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Shortlists}{10}}
+\newlabel{sec:shortlists}{{7.2}{10}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Regularization}{10}}
+\newlabel{sec:regularization}{{8}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Dropout}{10}}
+\newlabel{sec:dropout}{{8.1}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Tied Weights}{10}}
+\newlabel{sec:tiedweights}{{8.2}{10}}
+\citation{xavier10}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Initialization}{11}}
+\newlabel{sec:initialization}{{9}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Xavier}{11}}
+\newlabel{sec:xavier}{{9.1}{11}}
+\@writefile{toc}{\contentsline {section}{\numberline {10}Model Configurations and Results}{11}}
+\newlabel{sec:results}{{10}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.1}Performance by Model Architecture}{11}}
+\newlabel{sec:perf_by_model_arch}{{10.1}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Validation Set Performance by Model Architecture on WikiText}}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.2}Performance by number of hidden layers}{12}}
+\newlabel{sec:perf_by_n_layers}{{10.2}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Validation Set Performance by number of Hidden Layers on WikiText}}{12}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.3}Performance by number of hidden units}{12}}
+\newlabel{sec:perf_by_n_hidden}{{10.3}{12}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.4}Performance by Dropout}{12}}
+\newlabel{sec:perf_by_dropout}{{10.4}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Validation Set Performance by number of Hidden Units on WikiText}}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Validation Set Performance by Dropout Probability on WikiText}}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Validation Set Performance by Embedding Dimension on WikiText}}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.5}Performance by Embedding Dimensions}{14}}
+\newlabel{sec:perf_by_embedding}{{10.5}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.6}Performance by Shortlist Dimension}{14}}
+\newlabel{sec:perf_by_shortlist}{{10.6}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Validation Set Performance by Shortlist Dimension on WikiText}}{15}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.7}Performance by Tied Weights}{15}}
+\newlabel{sec:perf_by_tiedweights}{{10.7}{15}}
 \bibcite{nano3}{1}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}GRU}{5}}
-\newlabel{sec:gru}{{4.3}{5}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Encoding and Decoding}{5}}
-\newlabel{sec:encdec}{{5}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Embeddings}{5}}
-\newlabel{sec:embedddings}{{5.1}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Shortlists}{6}}
-\newlabel{sec:shortlists}{{5.2}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Tied Weights}{6}}
-\newlabel{sec:tiedweights}{{5.3}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Regularization}{6}}
-\newlabel{sec:regularization}{{6}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Dropout}{6}}
-\newlabel{sec:dropout}{{6.1}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Initialization}{6}}
-\newlabel{sec:initialization}{{7}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Xavier}{6}}
-\newlabel{sec:xavier}{{7.1}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Model Configurations}{6}}
-\newlabel{sec:configuration}{{8}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {9}Experimental Results}{6}}
-\newlabel{sec:results}{{9}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {10}Analysis}{6}}
-\newlabel{sec:analysis}{{10}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {11}Future Work}{6}}
-\newlabel{sec:future}{{11}{6}}
+\bibcite{Bengio94}{2}
+\bibcite{hochreiter97}{3}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Validation Set Performance by Model on WikiText for Tied Weights}}{16}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.8}Performance by Xavier Initialization}{16}}
+\newlabel{sec:perf_by_xavier_init}{{10.8}{16}}
+\@writefile{toc}{\contentsline {section}{\numberline {11}Analysis}{16}}
+\newlabel{sec:analysis}{{11}{16}}
+\@writefile{toc}{\contentsline {section}{\numberline {12}Future Work}{16}}
+\newlabel{sec:future}{{12}{16}}
+\bibcite{schwenk05}{4}
+\bibcite{Milkolov10}{5}
+\bibcite{xavier10}{6}
+\bibcite{hinton2012}{7}
+\bibcite{cho2014}{8}
+\bibcite{colah2015}{9}
+\bibcite{press16}{10}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Validation Set Performance by Model on WikiText for Xavier Initialization}}{17}}

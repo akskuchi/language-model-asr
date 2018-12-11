@@ -93,7 +93,7 @@ the training set, 184,354 tokens in the validation set and 207,080 tokens
 in the test set. The combined dictionary for all three sets contains 28,755
 unique tokens.
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \includegraphics[width=0.7\columnwidth]{sr-eda-wikitext-train-words}
 \includegraphics[width=0.7\columnwidth]{sr-eda-wikitext-valid-words}
 \centering
@@ -111,13 +111,13 @@ Samples from the Dataset include:
 
 "As with previous <unk> Chronicles games , Valkyria Chronicles III is a …"
 
-"At Nintendo CEO Hiroshi Yamauchi 's request , Game Boy creator Gunpei Yokoi 's Nintendo R & D1 developed …"
+"At Nintendo CEO Hiroshi Yamauchi 's request , Game Boy creator Gunpei Yokoi 's Nintendo R \& D1 developed …"
 
 "It was larger than the Scientific , at 73 by 155 by 34 millimetres ..."
 
 Also notice the most frequent bigrams and trigrams of the dataset
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \includegraphics[width=0.7\columnwidth]{sr-eda-wikitext-bigrams}
 \includegraphics[width=0.7\columnwidth]{sr-eda-wikitext-trigrams}
 \centering
@@ -141,7 +141,7 @@ Samples from the Dataset include:
 
 XXX
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \includegraphics[width=0.7\columnwidth]{sr-eda-gigaword-train-words}
 \includegraphics[width=0.7\columnwidth]{sr-eda-gigaword-valid-words}
 \centering
@@ -152,7 +152,7 @@ In contrast to WikiText, there are a smaller number of domain-specific
 words and instead more words similar to those typically used in news
 articles, "said", "government", "stock", "tuesday", etc.
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \includegraphics[width=0.7\columnwidth]{sr-eda-gigaword-bigrams}
 \includegraphics[width=0.7\columnwidth]{sr-eda-gigaword-trigrams}
 \centering
@@ -342,9 +342,10 @@ LSTM cell in which the forget and store gates are combined into one "update" gat
 gated values (they sum up to 1 for every hidden unit). This means that the hidden state will
 "forget" some information only if it is going to learn some new information. The GRU also
 introduces a "reset gate". The "reset gate" is computed by taking the sigmoid of the sum of weighted
-inputs and hidden state $\sigma ([\bold W_r \bold x]_j + [\bold U_r \bold_{h - 1}])$.
+inputs and hidden state
+ $\sigma ([ W_r d x]_j + [ U_r  h - 1])$.
 
-When the "reset gate" is close to zero, the entire hidden state is thrown away and resetted with
+When the "reset gate" is close to zero, the entire hidden state is thrown away and reset with
 the current input gate state.
 
 The net effect is that the GRU can learn short term dependencies between inputs
@@ -362,11 +363,11 @@ Traditionally, the Language Models were feeded each word as a One-Hot encoded ve
 vocabulary is. Since vocabularies can be really large (20k to 800k for languages
 with many compounded words such as Finnish), this presents a computational
 problem, large matrices multiplication is expensive. Word Embeddings provide an
-alternative procedure in which the words to be feeded to the network are encoded
+alternative procedure in which the words to be fed to the network are encoded
 in an $n$ dimensional space. The embedding layer can learn a word encoding such
 that words related to each other semanticaly, get similar encoded vectors after
-the transformation. Even some basic arithmetic is possible. For example, if you
-subtract the vector for "queen" from the vector for "king" you get the vector
+the transformation. Even some basic arithmetic is possible by adding and subtracting the euclidean distance of vectors. For example, if you
+subtract (the vector for "queen" - the vector from "woman") from the vector for "king" you get the vector
 for "man".
 
 Word embeddings can be learned end-to-end with a single training
@@ -381,7 +382,11 @@ the RNN, LSTM or GRU cell phase both at the inference and training time. The
 comptutation of the embedding layer can be heavily optimized because the relevant
 input will only have a non-zero value in a single vector component.
 
-\includegraphics[width=0.7\columnwidth][width=\textwidth]{01}
+\begin{figure}[!ht]
+\includegraphics[width=\textwidth]{01}
+\centering
+\caption{Three embedding vector spaces showing how euclidean distance is following the semantic relations for: a) male and female. b) verb tenses. c) countries and capitals }
+\end{figure}
 
 \subsection{Shortlists}
 \label{sec:shortlists}
@@ -403,9 +408,6 @@ will seldomly be predicted. A good shortlist should be able to substantially
 reduce the computational complexity of the model whilst still retaining a
 relatively high degree of accuracy.
 
-\subsection{Tied Weights}
-\label{sec:tiedweights}
-
 \section{Regularization}
 \label{sec:regularization}
 
@@ -426,12 +428,26 @@ certain sets of units in order to produce the majority of activations, instead
 ensuring that every unit is utilized roughly equally. In the case of language models,
 this should in principle prevent the network from just recalling the training data.
 
+\subsection{Tied Weights}
+\label{sec:tiedweights}
+
+Another regularization technique addresses the parameters in the encoder and the decoder. In our models, both of these layers have the vocabulary size as one of their dimensions. The encoder transforms the (vocabulary sized) one-hot encoding into a word encoding while the decoder transforms the hidden state into a softmax as big as the vocabulary size. These sizes can get huge as the vocabulary can contain from 20k to 800k with languages with many compound words (such as Finnish), which means that overfitting is quite likely as many of the parameters included in encoder and decoder may be redundant.
+
+In order to help solving this issue, Press O. et al \cite{press16} proposed sharing the same weights for encoder and decoder, as one is the same size as the transpose of the other and both perform a translation between a dense encoded layer and a sparse one. They showed in their work how this technique can reduce the number of parameters in the model without hurting the performance while lowering the perplexity score.
 
 \section{Initialization}
 \label{sec:initialization}
 
+The starting values for the model parameters play a significant role in the training process for RNNs. The reason is mainly due to the depth these models reach while propagating through time. As the hidden state travels from time step to the next, an activation function is applied. The compound effect of performing the activation function several times tend to take the hidden state value towards the saturation zone of the activation functions. In order to avoid the saturation of the hidden units, the starting values must be chose carefully to ensure a correct behavior from the beginning, starting the training with as many active units as possible.
+
 \subsection{Xavier}
 \label{sec:xavier}
+
+Xavier initialization \cite{xavier10} was designed for the sigmoid and tanh functions. This is the initialization relevant to us since we have applied such functions more than the RELU.
+Xavier initialization consists on starting the hidden state values as a random distribution with variance as follows:
+$$var = \sqrt{\frac{1}{size_h}}$$
+
+Where $size_h$ is the number of hidden units. This ensures that the variance at the next hidden state is the same as the variance at the previous one. Maximizing the probability of having hidden units close to the mean and therefore out of the saturation zones.
 
 \section{Model Configurations and Results}
 \label{sec:results}
@@ -443,7 +459,7 @@ WikiText dataset and scale a few of those results up to Gigaword.
 \subsection{Performance by Model Architecture}
 \label{sec:perf_by_model_arch}
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-model-architecture}
 \centering
 \caption{Validation Set Performance by Model Architecture on WikiText}
@@ -459,7 +475,7 @@ higher than the other two models.
 \subsection{Performance by number of hidden layers}
 \label{sec:perf_by_n_layers}
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-hidden-lstm}
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-hidden-gru}
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-hidden-rnn}
@@ -481,7 +497,7 @@ increasing the number of layers gave inconclusive results.
 \subsection{Performance by number of hidden units}
 \label{sec:perf_by_n_hidden}
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-hidden-units-lstm}
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-hidden-units-gru}
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-hidden-units-rnn}
@@ -502,7 +518,7 @@ overfitting and improve accuracy on the validation data.
 \subsection{Performance by Dropout}
 \label{sec:perf_by_dropout}
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-dropout-lstm}
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-dropout-gru}
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-dropout-rnn}
@@ -526,7 +542,7 @@ difference, if any, dropout had on the metrics.
 \subsection{Performance by Embedding Dimensions}
 \label{sec:perf_by_embedding}
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-embedding-lstm}
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-embedding-gru}
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-embedding-rnn}
@@ -550,7 +566,7 @@ much lower computational complexity.
 \subsection{Performance by Shortlist Dimension}
 \label{sec:perf_by_shortlist}
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-shortlist-lstm}
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-shortlist-gru}
 \includegraphics[width=0.7\columnwidth]{sr-perf-by-shortlist-rnn}
@@ -576,32 +592,50 @@ that if we \emph{only} allow the network to predict
 frequent words by shortlisting then we can still get
 slightly worse but similar performance.
 
-\subsection{Tied Weights}
+\subsection{Performance by Tied Weights}
 \label{sec:perf_by_tiedweights}
 
-\begin{figure}[ht]
-\includegraphics[width=0.7\columnwidth]{sr-perf-by-model-tied-weights}
+We measured performance with tied weights, word embedding of size 200 and 2 hidden layers of size equal to the word embedding (200), this is a requirement for the encoder and decoder must have the same size in order to tie their weights. We trained to five epochs in batches of 200 sentences at a time.
+ 
+For the implementation of Tied Weights we were expecting lower perplexity levels as well as a small improvement or no change on the other metrics, however the LSTM and GRU models didn't show any perplexity improvements while the other metrics got worse. Our implementation of tied weights had a negative impact. For the tanh model as small perplexity improvement is shown but the other metrics are very unstable to draw any conclusions from them.
+
+\begin{figure}[!ht]
+\includegraphics[width=\textwidth, height=3cm]{lstm-tw}
+\centering
+\end{figure}
+\begin{figure}[!ht]
+\includegraphics[width=\textwidth, height=3cm]{gru-tw}
+\centering
+\end{figure}
+\begin{figure}[!ht]
+\includegraphics[width=\textwidth, height=3cm]{tanh-tw}
 \centering
 \caption{Validation Set Performance by Model on WikiText for Tied Weights}
 \end{figure}
 
-\subsection{Xavier Initialization}
+
+\subsection{Performance by Xavier Initialization}
 \label{sec:perf_by_xavier_init}
 
-\begin{figure}[ht]
-\includegraphics[width=0.7\columnwidth]{sr-perf-by-model-xavier-init}
+We measured performance with Xavier initialization, word embedding of size 500 and 2 hidden layers of size 200.
+We trained to five epochs in batches of 200 sentences at a time.
+ 
+In all three models we get worse results when implementing Xavier initialization. The perplexity is not modified by much but METEOR, ROUGE and Naive Accuracy are clearly worse. Analysis of the activation function values across training steps would be needed to determine why Xavier initialization wasn't able to improve the results.
+
+\begin{figure}[!ht]
+\includegraphics[width=\textwidth, height=3cm]{lstm-xi}
+\centering
+\end{figure}
+\begin{figure}[!ht]
+\includegraphics[width=\textwidth, height=3cm]{gru-xi}
+\centering
+\end{figure}
+\begin{figure}[!ht]
+\includegraphics[width=\textwidth, height=3cm]{tanh-xi}
 \centering
 \caption{Validation Set Performance by Model on WikiText for Xavier Initialization}
 \end{figure}
 
-\subsection{Kaiming Initialization}
-\label{sec:perf_by_kaiming_init}
-
-\begin{figure}[ht]
-\includegraphics[width=0.7\columnwidth]{sr-perf-by-model-kaiming-init}
-\centering
-\caption{Validation Set Performance by Model on WikiText for Xavier Initialization}
-\end{figure}
 
 \section{Analysis}
 \label{sec:analysis}
@@ -616,26 +650,32 @@ slightly worse but similar performance.
   Niels Bohr Institute \& Nano-Science Center, Københavns Universitet
 
 
-\bibitem{Milkolov10}
-  Milkolov T., et al, Recurrent neural network based language model, INTERSPEECH 2010
-
 \bibitem{Bengio94}
   http://ai.dinfo.unifi.it/paolo//ps/tnn-94-gradient.pdf
-
-\bibitem{colah2015}
-  http://colah.github.io/posts/2015-08-Understanding-LSTMs/
 
 \bibitem{hochreiter97}
   http://www.bioinf.jku.at/publications/older/2604.pdf
 
-\bibitem{cho2014}
-  https://arxiv.org/pdf/1406.1078v3.pdf
-
 \bibitem{schwenk05}
   ftp://tlp.limsi.fr/public/emnlp05.pdf. Accessed 6 Nov. 2018.
+  
+\bibitem{Milkolov10}
+  Milkolov T., et al, Recurrent neural network based language model, INTERSPEECH 2010
+  
+\bibitem{xavier10}
+  Understanding the difficulty of training deep feedforward neural networks - Glorot, Xavier \& Bengio Yoshua. 2010
 
 \bibitem{hinton2012}
   https://arxiv.org/pdf/1207.0580.pdf
+
+\bibitem{cho2014}
+  https://arxiv.org/pdf/1406.1078v3.pdf
+  
+\bibitem{colah2015}
+  http://colah.github.io/posts/2015-08-Understanding-LSTMs/
+
+\bibitem{press16}
+  Using the Output Embedding to Improve Language Models - Press, Ofir \& Wolf, Lior. 2016
 
 \end{thebibliography}
 
