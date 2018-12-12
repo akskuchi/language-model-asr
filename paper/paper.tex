@@ -681,44 +681,55 @@ initialization wasn't able to improve the results.
 \section{Analysis}
 \label{sec:analysis}
 
+Experimentation with model hyperparameters that increase or decrease information
+retention (such as number of hidden layers or their dimensionality) peformed in line
+with expectations. In general, increasing the amount of information stored by the network
+allowed it to generate more marginally more realistic language with a lower degree of
+perplexity at the output layers.
+
+Usage of trainable word embeddings at the encoding layers outperformed our expectations -
+we found that there were no situations where using word embeddings did not result in both
+a computational performance and natural language generation performance improvement. In fact,
+word embeddings resulted in the most significant perforamnce improvement out of any of the
+modifications that we made to the baseline models. We also found that using output shortlists
+of length 5000 or above for the WikiText models resulted in scores competitve with the baseline
+on both METEOR and ROUGE, but with twice to fource times less computational complexity because
+not as many dot products need to be performed at the output layer for each word prediction. However,
+if one had to choose between shortlisting and trainable word embeddings at the input layer, embeddings
+are able to reduce compute complexity much more whilst also improving accuracy, something that
+did not happen with shortlists at the output layer.
+
+We found that like the paper suggested, usage of regularization techniques did not assist in improving
+either perplexity or scores on both METEOR and ROUGE. This was even true in the case of Dropout,
+which was proposed after the 2010 paper by Milkolov was published. Such a result was surprising to us
+and perhaps requires further investigation and testing. For instance, Zaremba & Vinyals found that
+applying dropout on non-recurrent connections could be an effective regularizer \cite{zaremba2015},
+though this is different to the way in which we implemented dropout, which was on both the recurrent
+and non-recurrent connections. This may have impacted the network's ability to remember crucial
+information during training that it would allow it to make better predictions and optimize better.
+
+Finally, we found that using Tied Weights and Xavier Initialization did not assist on any of our
+natural language generation metrics and in fact made performance worse. It was surprising to see
+that Xavier Initialization made the model perform more poorly, so perhaps further analysis is required
+as to the state of the activations between the recurrent connections to determine if they are more
+or less saturated during training.
+
 \section{Future Work}
 \label{sec:future}
 
-\begin{thebibliography}{9}
-\bibitem{nano3}
-  K. Grove-Rasmussen og Jesper Nygård,
-  \emph{Kvantefænomener i Nanosystemer}.
-  Niels Bohr Institute \& Nano-Science Center, Københavns Universitet
+In this paper, we did not have the opportunity to evaluate some of the methods identified in our
+original literature review. For instance, we were not able to implement a working version of
+Batch Normalization \cite{ioffe} which has been shown to be effective in the context of LSTMs \cite{courville2017}.
 
+We also did not have the opportunity to examine Adaptive Importance Sampling \cite{bengio08}. Doing so
+likely would have taken a substantial amount of time to implement as it stands in as an alternative
+to full backpropagation. However, it would be useful to see if the technique is effective in
+reducing the training time of the RNN models by merely approximating the converged state.
 
-\bibitem{Bengio94}
-  http://ai.dinfo.unifi.it/paolo//ps/tnn-94-gradient.pdf
-
-\bibitem{hochreiter97}
-  http://www.bioinf.jku.at/publications/older/2604.pdf
-
-\bibitem{schwenk05}
-  ftp://tlp.limsi.fr/public/emnlp05.pdf. Accessed 6 Nov. 2018.
-  
-\bibitem{Milkolov10}
-  Milkolov T., et al, Recurrent neural network based language model, INTERSPEECH 2010
-  
-\bibitem{xavier10}
-  Understanding the difficulty of training deep feedforward neural networks - Glorot, Xavier \& Bengio Yoshua. 2010
-
-\bibitem{hinton2012}
-  https://arxiv.org/pdf/1207.0580.pdf
-
-\bibitem{cho2014}
-  https://arxiv.org/pdf/1406.1078v3.pdf
-  
-\bibitem{colah2015}
-  http://colah.github.io/posts/2015-08-Understanding-LSTMs/
-
-\bibitem{press16}
-  Using the Output Embedding to Improve Language Models - Press, Ofir \& Wolf, Lior. 2016
-
-\end{thebibliography}
-
+Finally, we did not get the opportunity to implement the open vocabulary approach, which would allow
+the network to fall back to predicting character data if an UNK token was predicted \cite{ling2016}. Such
+an approach again would have required substantial modification to the baseline implementation that
+we used, since the baseline predicts one-hot encoded words in batches and is not set up to deal with
+character encodings.
 
 \end{document}
