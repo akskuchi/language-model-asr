@@ -595,9 +595,17 @@ slightly worse but similar performance.
 \subsection{Performance by Tied Weights}
 \label{sec:perf_by_tiedweights}
 
-We measured performance with tied weights, word embedding of size 200 and 2 hidden layers of size equal to the word embedding (200), this is a requirement for the encoder and decoder must have the same size in order to tie their weights. We trained to five epochs in batches of 200 sentences at a time.
+We measured performance with tied weights, word embedding of size 200 and 2
+hidden layers of size equal to the word embedding (200), this is a requirement
+for the encoder and decoder must have the same size in order to tie their
+weights. We trained to five epochs in batches of 200 sentences at a time.
  
-For the implementation of Tied Weights we were expecting lower perplexity levels as well as a small improvement or no change on the other metrics, however the LSTM and GRU models didn't show any perplexity improvements while the other metrics got worse. Our implementation of tied weights had a negative impact. For the tanh model as small perplexity improvement is shown but the other metrics are very unstable to draw any conclusions from them.
+For the implementation of Tied Weights we were expecting lower perplexity levels
+as well as a small improvement or no change on the other metrics, however the
+LSTM and GRU models didn't show any perplexity improvements while the other
+metrics got worse. Our implementation of tied weights had a negative impact. For
+the tanh model as small perplexity improvement is shown but the other metrics
+are very unstable to draw any conclusions from them.
 
 \begin{figure}[!ht]
 \includegraphics[width=\textwidth, height=3cm]{lstm-tw}
