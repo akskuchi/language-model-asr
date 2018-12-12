@@ -57,9 +57,9 @@ Prior to the introduction of RNNs, most language models used n-grams
 in Hidden Markov Model chains, where it was assumed that the $k$th
 word depended only on the prior $n$ words. One key problem
 with this model is that the context window is of a fixed size, leading
-to a horizon problem. The Horizon problem occur because a if there were a word
+to a horizon problem. The horizon problem occurs because a if there were a word
 in the word sequence which is extremely predictive of the $(n + 1)$th
-word away from the current word, that would would simply not be taken
+word away from the current word, that word would simply not be taken
 into account in that model. Worse still, the fixed size context window
 means that unnecessary weight is put on words that happen to be in the context
 window that may actually not be all that predictive were the context window
@@ -133,17 +133,17 @@ descriptions-in-general are frequently occurring, ("unk unk unk").
 \subsection{Gigaword}
 \label{sec:gigaword}
 
-The second dataset we used was Gigaword. This dataset is based on XXX,
+The second dataset we used was Gigaword. This dataset is based on news articles,
 containing 8,658,023 tokens in the training set, and 341,317 tokens in the
 validation set. The combined dictionary contains 59760 unique tokens.
 
-Samples from the Dataset include:
+Samples from the Dataset include (expected predictions highlighted):
 
-"five time world champion kwan withdrew from the US figure skating championships
+"five time world champion Kwan withdrew from the US figure skating championships
 on Wednesday, but will petition US skating officials for the chance to compete
 \emph{at the Turin Olympics}."
 
-"US business leaders lashed out wednesday at legislation that would penalize companies
+"US business leaders lashed out Wednesday at legislation that would penalize companies
 \emph{for employing illegal immigrants}."
 
 \begin{figure}[!ht]
@@ -205,7 +205,7 @@ rate" (WER), defined as:
 
 $$ WER = \frac{S + D + I}{N} $$, where $N$ is the number of
 words and $S, D, I$ are substitutions, deletions, insertions.
-This is similar to the Levenstein distance between documents.
+This is similar to the Levensteihn distance between documents.
 
 However, such a metric doesn't take int account the fact that
 a recognized sequence may differ in length to a reference
