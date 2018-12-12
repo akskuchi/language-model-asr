@@ -488,6 +488,10 @@ We ran two sets of experiments on each dataset. Because of the difference in siz
 between the Gigaword and WikiText datasets we were able to run more tests on the
 WikiText dataset and scale a few of those results up to Gigaword.
 
+The actual models were implemented as an extension to the PyTorch
+WikiText RNN Language Modelling Example \cite{pytorchlm}. Metrics were
+evaluated using the NLG-Eval toolkit by Sharma and others \cite{nlgeval}.
+
 \subsection{Performance by Model Architecture}
 \label{sec:perf_by_model_arch}
 
