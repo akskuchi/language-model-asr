@@ -620,7 +620,9 @@ For the implementation of Tied Weights we were expecting lower perplexity levels
 We measured performance with Xavier initialization, word embedding of size 500 and 2 hidden layers of size 200.
 We trained to five epochs in batches of 200 sentences at a time.
  
-In all three models we get worse results when implementing Xavier initialization. The perplexity is not modified by much but METEOR, ROUGE and Naive Accuracy are clearly worse. Analysis of the activation function values across training steps would be needed to determine why Xavier initialization wasn't able to improve the results.
+In all three models we get worse results when implementing Xavier initialization. The perplexity is not modified
+by much but METEOR, ROUGE and Naive Accuracy are clearly worse. Analysis of the activation function values across training steps
+would be needed to determine why Xavier initialization wasn't able to improve the results.
 
 \begin{figure}[!ht]
 \includegraphics[width=\textwidth, height=3cm]{lstm-xi}
