@@ -437,23 +437,48 @@ this should in principle prevent the network from just recalling the training da
 \subsection{Tied Weights}
 \label{sec:tiedweights}
 
-Another regularization technique addresses the parameters in the encoder and the decoder. In our models, both of these layers have the vocabulary size as one of their dimensions. The encoder transforms the (vocabulary sized) one-hot encoding into a word encoding while the decoder transforms the hidden state into a softmax as big as the vocabulary size. These sizes can get huge as the vocabulary can contain from 20k to 800k with languages with many compound words (such as Finnish), which means that overfitting is quite likely as many of the parameters included in encoder and decoder may be redundant.
+Another regularization technique addresses the parameters in the encoder and the
+decoder. In our models, both of these layers have the vocabulary size as one of
+their dimensions. The encoder transforms the (vocabulary sized) one-hot encoding
+into a word encoding while the decoder transforms the hidden state into a
+softmax as big as the vocabulary size. These sizes can get huge as the
+vocabulary can contain from 20k to 800k with languages with many compound words
+(such as Finnish), which means that overfitting is quite likely as many of the
+parameters included in encoder and decoder may be redundant.
 
-In order to help solving this issue, Press O. et al \cite{press16} proposed sharing the same weights for encoder and decoder, as one is the same size as the transpose of the other and both perform a translation between a dense encoded layer and a sparse one. They showed in their work how this technique can reduce the number of parameters in the model without hurting the performance while lowering the perplexity score.
+In order to help solving this issue, Press O. et al \cite{press16} proposed
+sharing the same weights for encoder and decoder, as one is the same size as the
+transpose of the other and both perform a translation between a dense encoded
+layer and a sparse one. They showed in their work how this technique can reduce
+the number of parameters in the model without hurting the performance while
+lowering the perplexity score.
 
 \section{Initialization}
 \label{sec:initialization}
 
-The starting values for the model parameters play a significant role in the training process for RNNs. The reason is mainly due to the depth these models reach while propagating through time. As the hidden state travels from time step to the next, an activation function is applied. The compound effect of performing the activation function several times tend to take the hidden state value towards the saturation zone of the activation functions. In order to avoid the saturation of the hidden units, the starting values must be chose carefully to ensure a correct behavior from the beginning, starting the training with as many active units as possible.
+The starting values for the model parameters play a significant role in the
+training process for RNNs. The reason is mainly due to the depth these models
+reach while propagating through time. As the hidden state travels from time step
+to the next, an activation function is applied. The compound effect of
+performing the activation function several times tend to take the hidden state
+value towards the saturation zone of the activation functions. In order to avoid
+the saturation of the hidden units, the starting values must be chose carefully
+to ensure a correct behavior from the beginning, starting the training with as
+many active units as possible.
 
 \subsection{Xavier}
 \label{sec:xavier}
 
-Xavier initialization \cite{xavier10} was designed for the sigmoid and tanh functions. This is the initialization relevant to us since we have applied such functions more than the RELU.
-Xavier initialization consists on starting the hidden state values as a random distribution with variance as follows:
-$$var = \sqrt{\frac{1}{size_h}}$$
+Xavier initialization \cite{xavier10} was designed for the sigmoid and tanh
+functions. This is the initialization relevant to us since we have applied such
+functions more than the RELU. Xavier initialization consists on starting the
+hidden state values as a random distribution with variance as follows: $$var =
+\sqrt{\frac{1}{size_h}}$$
 
-Where $size_h$ is the number of hidden units. This ensures that the variance at the next hidden state is the same as the variance at the previous one. Maximizing the probability of having hidden units close to the mean and therefore out of the saturation zones.
+Where $size_h$ is the number of hidden units. This ensures that the variance at
+the next hidden state is the same as the variance at the previous one.
+Maximizing the probability of having hidden units close to the mean and
+therefore out of the saturation zones.
 
 \section{Model Configurations and Results}
 \label{sec:results}
