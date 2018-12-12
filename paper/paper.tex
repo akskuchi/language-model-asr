@@ -248,7 +248,8 @@ seeing how many words the model predicted correctly.
 
 A simple RNN (Elman network) as described in the Milkolov
 paper consists of a single linear layer and non-linear
-activation (in our case, the $tanh$ function, $ \frac{e^{2x} - 1}{e^{2x} + 1} $, with domain $[ -\infty, \infty ]$ and
+activation (in our case, the $tanh$ function,
+$ \frac{e^{2x} - 1}{e^{2x} + 1} $, with domain $[ -\infty, \infty ]$ and
 range $ [-1, 1] $. The inputs to the network are
 a hidden state vector, $h_{t}$, where the size is a hyperparameter
 and the input encoding vector $i_{t}$. The output of the network
