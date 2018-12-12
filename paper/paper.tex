@@ -73,10 +73,11 @@ before that). In effect, the RNN architecture encodes the contextual history
 into the hidden layer vector allowing for an encoded approximation of infinite
 contextual history.
 
-One of the first papers applying RNNs to Language Modeling was \cite{Milkolov10}. But since 2010, new RNN approaches have shown
-improvement on the state-of-the-art. We examine these new architectures and
-techniques for future work discussed in the Milkolov paper and analyze whether their
-results indicate that improvements can be made on the baseline set by the paper.
+One of the first papers applying RNNs to Language Modeling was by Milkolov and others \cite{Milkolov10}.
+But since 2010, new RNN approaches have shown improvement on the state-of-the-art.
+We examine these new architectures and techniques for future work discussed in the
+Milkolov paper and analyze whether their results indicate that improvements can be made
+on the baseline set by the paper.
 
 \section{Data}
 \label{sec:data}
@@ -275,7 +276,7 @@ a context window \emph{up to} to a certain length, but no longer than
 that length.
 
 Unfortunately, Elman Network RNNs are not able to retain all the optimal
-contextual in practice. The reasons for this are given by \cite{Bengio94},
+contextual in practice. The reasons for this are given by Bengio\cite{Bengio94},
 but in summary the issue is that as we backpropagate through time the gradients
 from states "further back" in the history start to get vanishingly small, meaning
 that they can be easily disrupted by noise or newer information. This means
