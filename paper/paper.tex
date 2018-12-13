@@ -57,7 +57,7 @@ Prior to the introduction of RNNs, most language models used n-grams
 in Hidden Markov Model chains, where it was assumed that the $k$th
 word depended only on the prior $n$ words. One key problem
 with this model is that the context window is of a fixed size, leading
-to a horizon problem. The horizon problem occurs because a if there were a word
+to a horizon problem. The horizon problem occurs because if there were a word
 in the word sequence which is extremely predictive of the $(n + 1)$th
 word away from the current word, that word would simply not be taken
 into account in that model. Worse still, the fixed size context window
@@ -65,7 +65,7 @@ means that unnecessary weight is put on words that happen to be in the context
 window that may actually not be all that predictive were the context window
 infinite.
 
-In contrast, RNN's seek to solve this problem by introducing a Neural Network
+In contrast, RNNs seek to solve this problem by introducing a Neural Network
 architecture with recurrent connections, meaning that as the RNN makes predictions
 over a sequence observations, it takes into account a hidden layer produced
 by the previous observation (which in turn was a product of all the observations
@@ -89,7 +89,7 @@ and improvements and measure their effectiveness against certain well-known data
 \label{sec:wikitext}
 
 The first dataset we use is the WikiText dataset. This is a smaller dataset than
-Gigaword and WSJ'92, but allowed us to
+Gigaword and WSJ, but allowed us to
 iterate faster and run more experiments.
 
 This dataset is based on articles from Wikipedia, containing 1,205,450 tokens in
@@ -208,14 +208,14 @@ rate" (WER), defined as:
 
 $$ WER = \frac{S + D + I}{N} $$, where $N$ is the number of
 words and $S, D, I$ are substitutions, deletions, insertions.
-This is similar to the Levensteihn distance between documents.
+This is similar to the Levenshtein Distance between documents (Haldar et al. \cite{haldar11}).
 
-However, such a metric doesn't take int account the fact that
+However, such a metric doesn't take into account the fact that
 a recognized sequence may differ in length to a reference
 sequence.
 
 Improving on this situation, ROUGE measures based on the
-longest matching subsequences, overlapping pairs and n-gram
+longest matching sub-sequences, overlapping pairs and n-gram
 co-occurrences.
 
 \subsection{METEOR}
@@ -224,11 +224,11 @@ Another metric trying to improve BLEU is
 METEOR. The novel thing about this metric is the use of Recall as well as
 Precision to compute the score. It computes the harmonic mean of Recall and
 Precision over uni-grams, the weight for recall being higher than Precision,
-meaning that false negatives (having a low probability for the true word trying
+meaning that false negatives (having a low probability for the true word we are  trying
 to predict) will have a big impact on the metric (the score will be lower as the
 amount of false negatives increase).
 
-More formally, Precision over an uni-gram is computed as: $$P={\frac
+Formally, Precision over an uni-gram is computed as: $$P={\frac
 {m}{w_{{t}}}}$$ Where m is the number of uni-grams in the candidate translation
 that are also found in the reference translation, and $w_t$ is the number of
 uni-grams in the candidate translation.
@@ -281,7 +281,7 @@ that length.
 Unfortunately, Elman Network RNNs are not able to retain all the optimal
 contextual in practice. The reasons for this are given by Bengio\cite{Bengio94},
 but in summary the issue is that as we backpropagate through time the gradients
-from states "further back" in the history start to get vanishingly small, meaning
+from states "further back" in the history start to get smaller and smaller, meaning
 that they can be easily disrupted by noise or newer information. This means
 that the hidden layer doesn't retain long-term information since it is easily
 disrupted by new information.
@@ -294,7 +294,7 @@ through the input, but rather is updated by deleting information and adding new
 information.
 
 The LSTM cell uses four "gates" to manage the state of the memory. Each of these
-gates comprises a set of weights and activations, descibed below \cite{colah2015}.
+gates comprises a set of weights and activations, described below \cite{colah2015}.
 
 The LSTM cell builds upon the basic RNN cell
 and adds some gates in order to control how information is stored or deleted.
@@ -320,13 +320,13 @@ In order to update the hidden state, we multiply the old hidden state ($h_{t - 1
 the information we want to keep, and add them together.
 
 The last gate is an "output" gate which decides which parts of the hidden state are
-taken on account to compute the output. The hidden state is first activated by sigmoid to determin
+taken on account to compute the output. The hidden state is first activated by sigmoid to determine
 the mask ($o_t$), then the hidden layer is activated by tanh to push the values between $[-1, 1]$, then
-finally multipled by the mask $o_t$ in order to determine the output of the network.
+finally multiplied by the mask $o_t$ in order to determine the output of the network.
 
 The end result with such a variation is that the hidden state is "protected" from perturbation
 by virtue of being combined through a single linear layer and activation layer with the input
-state on every timestep. Instead, the hidden state is more "explicitly" modified when the
+state on every time step. Instead, the hidden state is more "explicitly" modified when the
 optimized input and forget gates explicitly indicate that information should be added or removed
 to the state \cite{hochreiter97}.
 
@@ -340,7 +340,7 @@ gradient vanishing problem.
 The forgetting and storing gates help encoding only relevant information into
 the hidden state, improving long-time dependencies recall.
 
-Note that the hidden state accuracy benefits here come with a computational compleixty cost - every
+Note that the hidden state accuracy benefits here come with a computational complexity cost - every
 LSTM cell has three internal linear layers and five activations, which we pay for both in the forward
 pass and in backpropagation through time.
 
@@ -369,15 +369,15 @@ more active update gates \cite{cho2014}.
 \subsection{Embeddings}
 \label{sec:embedddings}
 
-Traditionally, the Language Models were feeded each word as a One-Hot encoded vector as large as the
+Traditionally, the Language Models were fed each word as a One-Hot encoded vector as large as the
 vocabulary is. Since vocabularies can be really large (20k to 800k for languages
 with many compounded words such as Finnish), this presents a computational
-problem, large matrices multiplication is expensive. Word Embeddings provide an
-alternative procedure in which the words to be fed to the network are encoded
+problem, matrix multiplication can get very  expensive quite fast as the size of the matrices being multiplied grow. Word Embeddings provide an
+alternative procedure to One-Hot in which the words to be fed to the network are encoded
 in an $n$ dimensional space. The embedding layer can learn a word encoding such
-that words related to each other semanticaly, get similar encoded vectors after
+that words semantically related to each other, get similar encoded vectors after
 the transformation. Even some basic arithmetic is possible by adding and subtracting the euclidean distance of vectors. For example, if you
-subtract (the vector for "queen" - the vector from "woman") from the vector for "king" you get the vector
+subtract (the vector for "queen" minus the vector from "woman") from the vector for "king" you get the vector
 for "man".
 
 Word embeddings can be learned end-to-end with a single training
@@ -389,7 +389,7 @@ as part of the process of training the entire language model as a separate layer
 Word embeddings also have the distinct advantage that they can reduce both training
 and inference complexity because fewer multiplications need to be done at
 the RNN, LSTM or GRU cell phase both at the inference and training time. The
-comptutation of the embedding layer can be heavily optimized because the relevant
+computation of the embedding layer can be heavily optimized because the relevant
 input will only have a non-zero value in a single vector component.
 
 \begin{figure}[!ht]
@@ -410,11 +410,11 @@ allow for representations of those words deemed uncommon, either by
 embeddings or one-hot encoding.
 
 The overall theory behind shortlists is that any optimal model operates
-on a pareto principle, 20% of the words which are the most frequent will
+on a Pareto principle, 20% of the words which are the most frequent will
 be predicted roughly 80% of the time. Since the computation of the output
 encodings of height $|V|$ is a fixed cost on every training and inference
 cycle, the user of the model is paying for the capacity to predict words which
-will seldomly be predicted. A good shortlist should be able to substantially
+will seldom be predicted. A good shortlist should be able to substantially
 reduce the computational complexity of the model whilst still retaining a
 relatively high degree of accuracy.
 
@@ -423,9 +423,9 @@ relatively high degree of accuracy.
 
 The Milkolov paper flags that performance on the validation could not be
 improved by using "standard regularization procedures" (we assume that
-the paper must have been referring to L1 or L2 regualrization based on the
+the paper must have been referring to L1 or L2 regularization based on the
 techniques in existence at the time) \cite{Milkolov10}. We propose that a
-popular regularization technique known as "Dropout" may be of some assitance.
+popular regularization technique known as "Dropout" may be of some assistance.
 
 \subsection{Dropout}
 \label{sec:dropout}
@@ -444,13 +444,12 @@ this should in principle prevent the network from just recalling the training da
 Another regularization technique addresses the parameters in the encoder and the
 decoder. In our models, both of these layers have the vocabulary size as one of
 their dimensions. The encoder transforms the (vocabulary sized) one-hot encoding
-into a word encoding while the decoder transforms the hidden state into a
+into a word embedding while the decoder transforms the hidden state into a
 softmax as big as the vocabulary size. These sizes can get huge as the
-vocabulary can contain from 20k to 800k with languages with many compound words
-(such as Finnish), which means that overfitting is quite likely as many of the
+vocabulary can contain from 20k to 800k, which means that overfitting is quite likely as many of the
 parameters included in encoder and decoder may be redundant.
 
-In order to help solving this issue, Press O. et al \cite{press16} proposed
+In order to help solving this issue, Press O. et al. \cite{press16} proposed
 sharing the same weights for encoder and decoder, as one is the same size as the
 transpose of the other and both perform a translation between a dense encoded
 layer and a sparse one. They showed in their work how this technique can reduce
@@ -466,8 +465,8 @@ reach while propagating through time. As the hidden state travels from time step
 to the next, an activation function is applied. The compound effect of
 performing the activation function several times tend to take the hidden state
 value towards the saturation zone of the activation functions. In order to avoid
-the saturation of the hidden units, the starting values must be chose carefully
-to ensure a correct behavior from the beginning, starting the training with as
+the saturation of the hidden units, the starting values must be chose carefully. The goal is then 
+to ensure a correct behavior from the beginning, starting the training process with as
 many active units as possible.
 
 \subsection{Xavier}
@@ -475,7 +474,7 @@ many active units as possible.
 
 Xavier initialization \cite{xavier10} was designed for the sigmoid and tanh
 functions. This is the initialization relevant to us since we have applied such
-functions more than the RELU. Xavier initialization consists on starting the
+functions more than the RELU alternative. Xavier initialization consists on starting the
 hidden state values as a random distribution with variance as follows: $$var =
 \sqrt{\frac{1}{size_h}}$$
 
@@ -545,7 +544,7 @@ increasing the number of layers gave inconclusive results.
 \end{figure}
 
 We measured differences in performance with 60, 90, 150 and 200 hidden units per
-RNN cell for each model architecture with 1 RNN cell, trained
+RNN cell for each model architecture with 1 RNN layer, trained
 to five epochs in batches of 200 sentences at a time.
 
 In general we found that like increasing the number of layers,
@@ -594,7 +593,7 @@ We measured differences in performance with embedding sizes 0, 50,
 1 RNN cell, 200 hidden units, trained to five epochs in batches of 200
 sentences at a time.
 
-On both LSTM and GRU models, any use of encoder embeddings noticably outperformed
+On both LSTM and GRU models, any use of encoder embeddings noticeably outperformed
 one-hot encoding on almost all metrics, except METEOR for LSTMs. It seems to be
 the case that the learned embeddings encoded useful information about the
 non-temporally dependent relationships between words. For Elman RNN cells, we
@@ -643,8 +642,8 @@ For the implementation of Tied Weights we were expecting lower perplexity levels
 as well as a small improvement or no change on the other metrics, however the
 LSTM and GRU models didn't show any perplexity improvements while the other
 metrics got worse. Our implementation of tied weights had a negative impact. For
-the tanh model as small perplexity improvement is shown but the other metrics
-are very unstable to draw any conclusions from them.
+the tanh model a small perplexity improvement is shown but the other metrics
+are too unstable to draw any conclusions from them.
 
 \begin{figure}[!ht]
 \includegraphics[width=\textwidth, height=3cm]{lstm-tw}
@@ -690,18 +689,17 @@ initialization wasn't able to improve the results.
 \label{sec:analysis}
 
 Experimentation with model hyperparameters that increase or decrease information
-retention (such as number of hidden layers or their dimensionality) peformed in line
+retention (such as number of hidden layers or their dimensionality) performed in line
 with expectations. In general, increasing the amount of information stored by the network
-allowed it to generate more marginally more realistic language with a lower degree of
+allowed it to generate (marginally) more realistic language with a lower degree of
 perplexity at the output layers.
 
-Usage of trainable word embeddings at the encoding layers outperformed our expectations -
-we found that there were no situations where using word embeddings did not result in both
+Usage of trainable word embeddings at the encoding layers outperformed our expectations. We found that there were no situations where using word embeddings did not result in both
 a computational performance and natural language generation performance improvement. In fact,
-word embeddings resulted in the most significant perforamnce improvement out of any of the
+word embeddings resulted in the most significant performance improvement out of any of the
 modifications that we made to the baseline models. We also found that using output shortlists
 of length 5000 or above for the WikiText models resulted in scores competitve with the baseline
-on both METEOR and ROUGE, but with twice to fource times less computational complexity because
+on both METEOR and ROUGE, but with twice to four times less computational complexity because
 not as many dot products need to be performed at the output layer for each word prediction. However,
 if one had to choose between shortlisting and trainable word embeddings at the input layer, embeddings
 are able to reduce compute complexity much more whilst also improving accuracy, something that
@@ -734,6 +732,8 @@ likely would have taken a substantial amount of time to implement as it stands i
 to full backpropagation. However, it would be useful to see if the technique is effective in
 reducing the training time of the RNN models by merely approximating the converged state.
 
+Additionally, it would be interesting to apply additional model architectures such as Bidirectional RNNs and Attention-based models. In particular, the latter have shown great performance improvements during the last years, achieving for example a new state-of-the-art result in machine translation in 2015 (Luong et al. \cite{luong15}) and also matching state-of-the-art results in Language Modeling with more than 4 times less parameters in comparison with other models (Salton et al. \cite{salton17}).
+
 Finally, we did not get the opportunity to implement the open vocabulary approach, which would allow
 the network to fall back to predicting character data if an UNK token was predicted \cite{ling2016}. Such
 an approach again would have required substantial modification to the baseline implementation that
@@ -741,5 +741,5 @@ we used, since the baseline predicts one-hot encoded words in batches and is not
 character encodings.
 
 \bibliographystyle{plain}
-\bibliography{bibliography.bib}
+\bibliography{bibliography}
 \end{document}

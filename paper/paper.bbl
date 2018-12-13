@@ -1,0 +1,110 @@
+\begin{thebibliography}{10}
+
+\bibitem{pytorchlm}
+The~PyTorch Authors.
+\newblock Word-level language modeling rnn, 2018.
+
+\bibitem{bengio08}
+Yoshua Bengio and J.S Senecal.
+\newblock Adaptive importance sampling to accelerate training of a neural
+  probabilistic language model.
+\newblock {\em IEEE Transactions on Neural Networks}, 2008.
+\newblock Accessed 6 Nov. 2018.
+
+\bibitem{Bengio94}
+Yoshua Bengio, Patrice Simard, and Paolo Frasconi.
+\newblock Learning long-term dependencies with gradient descent is difficult.
+\newblock {\em IEEE Transactions on Neural Networks}, 5(10):157 -- 166, 1994.
+
+\bibitem{ioffe}
+Ioffe S.~Szegedy C.
+\newblock Batch normalization: Accelerating deep network training by reducing
+  internal covariate shift, 2015.
+\newblock Accessed 7 Nov. 2018.
+
+\bibitem{cho2014}
+Kyunghyun Cho, Bart van Merrienboer, Caglar Gulcehre, Dzmitry Bahdanau, Fethi
+  Bougares, Holger Schwenk, and Yoshua Bengio.
+\newblock Learning phrase representations using rnn encoder–decoderfor
+  statistical machine translation, 2014.
+
+\bibitem{courville2017}
+Tim Cooijmans, Nicolas Ballas, Cesar Laurent, Caglar Gulcehre, and Aaron
+  Courville.
+\newblock Recurrent batch normalization, 2017.
+
+\bibitem{press16}
+Xavier Glorot and Yoshua Bengio.
+\newblock Understanding the difficulty of training deep feedforward neural
+  networks.
+\newblock In Yee~Whye Teh and Mike Titterington, editors, {\em Proceedings of
+  the Thirteenth International Conference on Artificial Intelligence and
+  Statistics}, volume~9 of {\em Proceedings of Machine Learning Research},
+  pages 249--256, Chia Laguna Resort, Sardinia, Italy, 13--15 May 2010. PMLR.
+
+\bibitem{xavier10}
+Xavier Glorot and Yoshua Bengio.
+\newblock Understanding the difficulty of training deep feedforward neural
+  networks.
+\newblock In {\em Proceedings of the13thInternational Conferenceon Artificial
+  Intelligence and Statistics (AISTATS) 2010}, pages 249 -- 256, 2010.
+
+\bibitem{haldar11}
+Rishin Haldar and Debajyoti Mukhopadhyay.
+\newblock Levenshtein distance technique in dictionary lookup methods: An
+  improved approach.
+\newblock 2011.
+
+\bibitem{hinton2012}
+Geoffrey~E. Hinton, Nitish Srivastava, Alex Krizhevsky, Ilya Sutskever, and
+  Ruslan~R. Salakhutdinov.
+\newblock Improving neural networks by preventing co-adaptation of feature
+  detectors, 2012.
+
+\bibitem{hochreiter97}
+Sepp Hochreiter and Jurgen Schmidhuber.
+\newblock Long short-term memory.
+\newblock {\em Neural Computation}, 9(8):1735 -- 1780, 1997.
+
+\bibitem{ling2016}
+Wang Ling, Tiago Luis, Luis Marujo, Ramon~Fernandex Astudillo, Silvio Amir,
+  Chris Dyer, Alan~W Beck, and Isabel Transcoso.
+\newblock Finding function in form: Compositional character models for open
+  vocabulary word representation, 2016.
+
+\bibitem{luong15}
+Minh-Thang Luong, Hieu Pham, and Christopher~D. Manning.
+\newblock Effective approaches to attention-based neural machine translation.
+\newblock 2015.
+
+\bibitem{Milkolov10}
+Tomas Milkolov, Lukas~Burget Martin~Karafiat, Jan Cernocky, and Sanjeev
+  Khudanpur.
+\newblock Recurrent neural network based language model.
+\newblock In {\em INTERSPEECH 2010}, pages 1045 -- 1048, 2010.
+
+\bibitem{colah2015}
+Chris Olah.
+\newblock Understanding lstm networks, 2015.
+
+\bibitem{salton17}
+Giancarlo~D. Salton, Robert~J. Ross, and John~D. Kelleher.
+\newblock Attentive language models.
+\newblock 2017.
+
+\bibitem{schwenk05}
+Holger Schwenk and Jean-Luc Gauvain.
+\newblock Training neural network language models on very large corpora.
+\newblock In {\em Joint Conference HLT/EMNLP}, pages 201 -- 208, 2005.
+\newblock Accessed 6 Nov. 2018.
+
+\bibitem{nlgeval}
+Shikhar Sharma, Layla~El Asri, Hannes Schulz, and Jermie Zumer.
+\newblock Relevance of unsupervised metrics in task oriented dialogue for
+  evaluating natural language generation, 2017.
+
+\bibitem{zaremba2015}
+Wojciech Zaremba, Ilya Sutskever, and Oriol Vinyals.
+\newblock Recurrent neural network regularization, 2015.
+
+\end{thebibliography}
